@@ -18,9 +18,9 @@ class AdminTestCase(StaticLiveServerTestCase):
         self.base = BaseTestCase()
         self.base.setUp()
 
-        options = webdriver.ChromeOptions()
+        options = webdriver.FirefoxOptions()
         options.headless = True
-        self.driver = webdriver.Chrome(options=options)
+        self.driver = webdriver.Firefox(options=options)
 
         super().setUp()            
             
