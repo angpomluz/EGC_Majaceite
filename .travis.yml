@@ -2,6 +2,11 @@ dist: xenial
 
 services:
   - postgresql
+notifications:
+  email:
+    - ferwalrod@alum.us.es
+  on_success: always
+  on_failure: always
 addons:
   postgresql: "9.4"
 before_script:
