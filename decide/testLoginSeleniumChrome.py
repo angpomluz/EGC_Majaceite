@@ -20,7 +20,7 @@ class AdminTestCase(StaticLiveServerTestCase):
 
         options = webdriver.ChromeOptions()
         options.headless = True
-        self.driver = webdriver.Chrome(options=options)
+        self.driver = webdriver.Chrome(executable_path=options)
 
         super().setUp()            
             
