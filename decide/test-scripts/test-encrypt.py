@@ -8,7 +8,10 @@ from mixnet.mixcrypt import ElGamal
 PK = sys.argv[1]
 MSG = sys.argv[2]
 # cambiar      V   por int si no funciona con str
-p, g, y = map(str, PK.split(','))
+#p, g, y = map(str, PK.split(',')) < original
+y = map(str, PK.split(','))
+p = map(str, PK.split(','))
+g = map(str, PK.split(','))
 k = MixCrypt(bits=256)
 k.k = ElGamal.construct((p, g, y))
 
