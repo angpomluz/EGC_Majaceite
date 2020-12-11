@@ -20,7 +20,7 @@ class VisualizerView(TemplateView):
     template_name = 'visualizer/visualizer.html'
     # EndPoint to download results
     def downloadResults(request):
-        options={"Unreal Engine":5,"Unity":2,"Wave Engine":1}
+        #options={"Unreal Engine":5,"Unity":2,"Wave Engine":1}
         Vote=Voting.objects.get(pk=(request.GET["VotID"]))
         if request.GET["Formato"]=="csv":
             listed_values=[]
@@ -67,10 +67,15 @@ class VisualizerView(TemplateView):
                 p.set('name','p'+str(i))
                 p.text=str(listed_values[i][3])
 
-        stringData=XT.tostring(data)
-        response=HttpResponse(stringData,content_type='text/xml')
-        response['Content-Disposition']= 'attachment; filename="votingResults.xml"'
-        return response
+                stringData=XT.tostring(data)
+                response=HttpResponse(stringData,content_type='text/xml')
+                response['Content-Disposition']= 'attachment; filename="votingResults.xml"'
+                return response
+            else:
+                #PDF aquiii
+                return HttpResponse()
+
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
