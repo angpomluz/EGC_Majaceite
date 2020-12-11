@@ -67,13 +67,10 @@ class VisualizerView(TemplateView):
                 p.set('name','p'+str(i))
                 p.text=str(listed_values[i][3])
 
-                stringData=XT.tostring(data)
-                response=HttpResponse(stringData,content_type='text/xml')
-                response['Content-Disposition']= 'attachment; filename="votingResults.xml"'
-                return response
-            else:
-                #PDF aquiii
-                return HttpResponse()
+            stringData=XT.tostring(data)
+            response=HttpResponse(stringData,content_type='text/xml')
+            response['Content-Disposition']= 'attachment; filename="votingResults.xml"'
+            return response
 
 
 
