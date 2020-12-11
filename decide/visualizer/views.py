@@ -71,6 +71,9 @@ class VisualizerView(TemplateView):
             response=HttpResponse(stringData,content_type='text/xml')
             response['Content-Disposition']= 'attachment; filename="votingResults.xml"'
             return response
+        else:
+            #PDF format here
+            return HttpResponse()
 
 
 
