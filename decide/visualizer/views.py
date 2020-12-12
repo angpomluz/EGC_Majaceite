@@ -11,9 +11,12 @@ from django.core import serializers
 from datetime import datetime
 from voting.models import *
 from django.template import Template,Context,loader
+from django.template.loader import get_template
 import csv
 import json
 import xml.etree.ElementTree as XT
+
+from visualizer.utils import render_to_pdf
 
 
 class VisualizerView(TemplateView):
@@ -35,6 +38,26 @@ class VisualizerView(TemplateView):
             for value in listed_values:
                 writer.writerow(value)
             response['Content-Disposition']= 'attachment; filename="votingResults.csv"'
+            return response
+        elif request.GET["Formato"]=="pdf":
+            listed_values=[]
+            for d in Vote.postproc:
+                Values=[]
+                for v in d.values():
+                    Values.append(v)
+                listed_values.append(Values)
+            context = {
+            "voting_id": request.GET["VotID"],
+            "votes1": listed_values[0][0],
+            "number1": listed_values[0][1],
+            "option1": listed_values[0][2],
+            "votes2": listed_values[1][0],
+            "number2": listed_values[1][1],
+            "option2": listed_values[1][2],
+            }
+            pdf = render_to_pdf('visualizer/invoice.html', context)
+            response = HttpResponse(pdf, content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="invoice.pdf"'
             return response
         elif request.GET["Formato"]=="json":
             response=JsonResponse({'results':Vote.postproc})
@@ -71,11 +94,6 @@ class VisualizerView(TemplateView):
             response=HttpResponse(stringData,content_type='text/xml')
             response['Content-Disposition']= 'attachment; filename="votingResults.xml"'
             return response
-        else:
-            #PDF format here
-            return HttpResponse()
-
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -89,6 +107,3 @@ class VisualizerView(TemplateView):
             raise Http404
 
         return context
-
-
-    
