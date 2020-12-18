@@ -53,11 +53,13 @@ def event_hook(request):
             for v in s.values():
                 values_list.append(v)
             listed_values.append(values_list)
-        response_msg = """Estos son los resultados de la votacion %s:\n 
-            Opcion 1: (%s) \n
-            Votos obtenidos: (%s)\n \n
-            Opcion 2: (%s) \n
-            Votos obtenidos: (%s)\n \n""" % (voting_id, listed_values[0][2], listed_values[0][3], listed_values[1][2], listed_values[1][3])
+        options_number = len(listed_values)
+        unmensaje = "Estos son los resultados de la votacion %s:\n" % voting_id
+        i=0
+        while i < options_number:
+            unmensaje = unmensaje + "-->Opcion %d: (%s) -- Votos obtenidos: (%s)\n\n" % (i, listed_values[i][2], listed_values[i][3])
+            i = i+1
+        response_msg = unmensaje
         client.chat_postMessage(channel=channel, text=response_msg)
         return HttpResponse(status=200)
     return HttpResponse(status=200)
