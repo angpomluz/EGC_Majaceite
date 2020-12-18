@@ -28,23 +28,24 @@ def event_hook(request):
         if ('subtype' in event_msg) and (event_msg['subtype'] == 'bot_message'):
             return HttpResponse(status=200)
     
-    if event_msg['text'] == 'saludame':
+    if event_msg['text'] == '-saludame':
         user = event_msg['user']
         channel = event_msg['channel']
         response_msg = ":wave:, Hello <@%s>" % event_msg['text']
         client.chat_postMessage(channel=channel, text=response_msg)
         return HttpResponse(status=200)
 
-    if event_msg['text'] == 'help':
+    if event_msg['text'] == '-help':
         user = event_msg['user']
         channel = event_msg['channel']
-        response_msg = "Hola <@%s>, estos son los comandos disponibles:\n saludame \n resultados votacion -IDvotacion-" % user
+        response_msg = """Hola <@%s>, estos son los comandos disponibles:\n -help \n -saludame \n -res_vX (donde X es el id de la votacion) \n
+                            Todos los comando deben incluir el guion para que el bot lo entienda como comando""" % user
         client.chat_postMessage(channel=channel, text=response_msg)
         return HttpResponse(status=200)
    
-    if "resultados votacion" in event_msg['text']:
+    if "-res_v" in event_msg['text']:
         channel = event_msg['channel']
-        voting_id = event_msg['text'][20:]
+        voting_id = event_msg['text'][6:]
         objeto_voting=Voting.objects.get(id=voting_id)
         something = objeto_voting.postproc
         listed_values=[]
