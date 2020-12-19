@@ -1,0 +1,75 @@
+<h3>Porcentaje del censados que han votado</h3>
+<div id="container-piechart-censados" class="d-inline-flex border">
+    <canvas id="piechart-censados" class="w-100 h-100"></canvas>          
+</div>
+<h3>Porcentaje de votos por género</h3>   
+<div id="container-piechart-genero" class="d-inline-flex border">
+    <canvas id="piechart-genero" class="w-100 h-100"></canvas>          
+</div>
+<h3>Porcentaje de votos por edad</h3>
+<div id="container-barchart-poredad" class="d-inline-flex">
+    <canvas id="barchart-poredad" class="w-100 h-100"></canvas>
+</div>
+
+
+<script>
+    
+    var configCensados = {
+    type: 'pie',
+    data: {
+        datasets: [{
+        data: [30,60],
+        backgroundColor: [
+            '#696969', '#C0C0C0'
+        ],
+        label: 'Population'
+        }],
+        labels: ["% ha votado", "% no ha votado"]
+    },
+    options: {
+        responsive: true
+    }
+    };
+
+    var configGenero = {
+    type: 'pie',
+    data: {
+        datasets: [{
+        data: [55,45],
+        backgroundColor: [
+            '#ffb3ba', '#bae1ff'
+        ],
+        label: 'Population'
+        }],
+        labels: ["Mujeres", "Hombres"]
+    },
+    options: {
+        responsive: true
+    }
+    };
+
+    var configPorEdad ={
+     type: 'bar',
+     data: {
+        datasets: [{
+            data: [12,34,26,10,8],
+            backgroundColor: '#baffc9',
+            label: 'Votantes'
+        }],
+        labels: ['18 - 25','25 - 35', '35 - 55', '55-65', '+65']
+     },
+     options: {
+         responsive: true
+     }
+    };
+
+    window.onload = function() {
+    var ctx_censados = document.getElementById('piechart-censados').getContext('2d');
+    var ctx_genero = document.getElementById('piechart-genero').getContext('2d');
+    var ctx_poredad = document.getElementById('barchart-poredad').getContext('2d');
+    window.myPie = new Chart(ctx_censados, configCensados);
+    window.myPie = new Chart(ctx_genero, configGenero);
+    window.myPie = new Chart(ctx_poredad, configPorEdad);
+    };
+
+ </script>

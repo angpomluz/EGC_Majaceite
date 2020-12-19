@@ -13,9 +13,13 @@ class VisualizerView(TemplateView):
         context = super().get_context_data(**kwargs)
         vid = kwargs.get('voting_id', 0)
         
+        censados = mods.get('census',params={'voting_id':vid})
+        
+        
         context['numvotos']=34
         context['porcenso_labels']=['porcentaje censo']
         context['porcenso_data']=[30]
+        context['censados']=censados
 
         try:
             r = mods.get('voting', params={'id': vid})
