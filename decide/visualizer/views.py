@@ -25,7 +25,13 @@ class VisualizerView(TemplateView):
     def downloadResults(request):
         #options={"Unreal Engine":5,"Unity":2,"Wave Engine":1}
         Vote=Voting.objects.get(pk=(request.GET["VotID"]))
-        if request.GET["Formato"]=="csv":
+        if not Vote.start_date:
+            raise Http404
+        elif not Vote.end_date:
+            raise Http404
+        elif not Vote.tally:
+            raise Http404
+        elif request.GET["Formato"]=="csv":
             listed_values=[]
             for d in Vote.postproc:
                 Values=[]
