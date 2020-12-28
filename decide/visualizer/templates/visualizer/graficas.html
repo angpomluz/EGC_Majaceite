@@ -2,11 +2,11 @@
 <div id="container-piechart-censados" class="d-inline-flex border">
     <canvas id="piechart-censados" class="w-100 h-100"></canvas>          
 </div>
-<h3>Porcentaje de votos por género</h3>   
+<h3>Número de votos por género</h3>   
 <div id="container-piechart-genero" class="d-inline-flex border">
     <canvas id="piechart-genero" class="w-100 h-100"></canvas>          
 </div>
-<h3>Porcentaje de votos por edad</h3>
+<h3>Número de votos por edad</h3>
 <div id="container-barchart-poredad" class="d-inline-flex">
     <canvas id="barchart-poredad" class="w-100 h-100"></canvas>
 </div>
@@ -35,13 +35,13 @@
     type: 'pie',
     data: {
         datasets: [{
-        data: [55,45],
+        data: {{gender_votes}},
         backgroundColor: [
             '#ffb3ba', '#bae1ff'
         ],
         label: 'Population'
         }],
-        labels: ["Mujeres", "Hombres"]
+        labels: ["Hombres", "Mujeres", "No Binario" ]
     },
     options: {
         responsive: true
@@ -52,7 +52,7 @@
      type: 'bar',
      data: {
         datasets: [{
-            data: [12,34,26,10,8],
+            data: {{votes_by_age}},
             backgroundColor: '#baffc9',
             label: 'Votantes'
         }],
