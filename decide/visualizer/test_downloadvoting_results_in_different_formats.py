@@ -52,6 +52,8 @@ class TestDownloadvotingresultsindifferentformats():
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(3)").click()
 
 """
+
+
 class TestDownloadResults(StaticLiveServerTestCase):
   def setUp(self):
     #Load base test functionality for decide

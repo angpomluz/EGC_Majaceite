@@ -32,6 +32,7 @@ class TestTryingtodownloadresultsinanonstartedvoting():
     self.driver.set_window_size(797, 824)
     assert self.driver.find_element(By.CSS_SELECTOR, "h2").text == "Votación no comenzada"
 """
+
 class TestTryingToDownloadResultsNotStartedVoting(StaticLiveServerTestCase):
   def setUp(self):
     #Load base test functionality for decide
