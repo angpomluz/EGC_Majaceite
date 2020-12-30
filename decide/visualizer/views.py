@@ -17,7 +17,6 @@ from voting.models import *
 from django.template import Template,Context,loader
 from django.template.loader import get_template
 import csv
-import json
 import xml.etree.ElementTree as XT
 
 from visualizer.utils import render_to_pdf
@@ -201,7 +200,7 @@ def get_votes_by_age(age_range,birthdates):
 def calculate_age(born, is_string=False):
     
     if is_string:
-         born = datetime.datetime.strptime(born, "%d/%m/%Y").date()
+         born = datetime.strptime(born, "%d/%m/%Y").date()
         
-    today = datetime.date.today()
+    today = datetime.today()
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
