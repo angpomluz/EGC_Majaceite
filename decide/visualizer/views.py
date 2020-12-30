@@ -48,12 +48,9 @@ class VisualizerView(TemplateView):
                 listed_values.append(Values)
             context = {
             "voting_id": request.GET["VotID"],
-            "votes1": listed_values[0][0],
-            "number1": listed_values[0][1],
-            "option1": listed_values[0][2],
-            "votes2": listed_values[1][0],
-            "number2": listed_values[1][1],
-            "option2": listed_values[1][2],
+            "voting_name": Vote.name,
+            "voting_question": Vote.question,
+            "data": listed_values,
             }
             pdf = render_to_pdf('visualizer/invoice.html', context)
             response = HttpResponse(pdf, content_type='application/pdf')
