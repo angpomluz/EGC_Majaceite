@@ -40,20 +40,18 @@
         <div class='wrapper'>
             <div class='header'>
                 <p class='title'>Voting # {{ voting_id }}</p>
+                <p class='title'>{{ voting_name }}</p>
+                <p class='title'>{{ voting_question }}</p>
             </div>
-        <div>
-        <div class='details1'>
-            Votes: {{ votes1 }}<br/>
-            Number: {{ number1 }}<br/>
-            Option: {{ option1 }}
+        </div>
+        <div class='data'>
+            {% for d in data %}
+                Option: {{d.2}} <br/>
+                Number: {{d.1}} <br/>
+                Votes: {{d.0}} <br/>
+                <br/>
+            {% endfor %}
             <hr class='hrItem' />
         </div>
-        <div class='details2'>
-            Votes: {{ votes2 }}<br/>
-            Number: {{ number2 }}<br/>
-            Option: {{ option2 }}
-            <hr class='hrItem' />
-        </div>
-    </div>
     </body>
 </html>
