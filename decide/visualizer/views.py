@@ -59,7 +59,30 @@ class VisualizerView(TemplateView):
         
         try:
             r = mods.get('voting', params={'id': vid})
-            context['voting'] = json.dumps(r[0])
+            voting = json.dumps(r[0])
+
+            # Aquí hacemos del json un diccionario
+            voting_information = json.loads(voting)
+            postproc = voting_information["postproc"]
+
+            # Metemos en data y labels la información necesaria
+            a = 0; b = 0
+            labels = []; data = []
+
+            while a < len(postproc):
+                option = postproc[a]
+                labels.append(option["option"])
+                a += 1
+                
+            while b < len(postproc):
+                option = postproc[b]
+                data.append(option["votes"])
+                b += 1
+
+            # La añadimos al context
+            context['voting'] = voting
+            context['data'] = data
+            context['labels'] = labels
         except:
             raise Http404
 
