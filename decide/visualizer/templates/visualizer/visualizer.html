@@ -43,11 +43,6 @@
                     </tbody>
                 </table>
 
-                <b>Número de censados: </b><span>{{num_censed}}</span></span></br>
-                <b>Número de votos: </b><span>{{num_voted}}</span></br>
-
-                {% include './graficas.html' %}
-
                 <br/>
 
                 <!-- Pie -->
@@ -80,8 +75,16 @@
                     };
         
                 </script>
+
+                <b>Número de censados: </b><span>{{num_censed}}</span></span></br>
+                <b>Número de votos: </b><span>{{num_voted}}</span></br>
+
+                {% include './graficas.html' %}
+
                 
             </div>
+
+            
                 
 
         </div>
