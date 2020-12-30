@@ -7,6 +7,8 @@
     <link type="text/css" rel="stylesheet"
          href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
     <link type="text/css" rel="stylesheet" href="{% static "booth/style.css" %}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -53,7 +55,19 @@
                     </select>
                 </form>
                 <!-- Fin del codigo añadido por Fernando-->
+
+                <br/>
+
+                <b>Número de censados: </b><span>{{num_censed}}</span></span></br>
+                <b>Número de votos: </b><span>{{num_voted}}</span></br>
+
+                {% include './graficas.html' %}
+
+                
             </div>
+
+            
+                
 
         </div>
     </div>
