@@ -1,3 +1,7 @@
+<h3>Número de votos totales</h3>
+<div id="container-piechart-total" class="d-inline-flex border">
+    <canvas id="piechart-total" class="w-100 h-100"></canvas>          
+</div>
 <h3>Porcentaje del censados que han votado</h3>
 <div id="container-piechart-censados" class="d-inline-flex border">
     <canvas id="piechart-censados" class="w-100 h-100"></canvas>          
@@ -13,6 +17,23 @@
 
 
 <script>
+
+    var configTotal = {
+    type: 'pie',
+    data: {
+        datasets: [{
+        data: {{data|safe}},
+        backgroundColor: [
+            '#FF0000', '#00FF00', '#00FFFF', '#0000FF', '#000080', '#FFFF00'
+        ],
+        label: 'Population'
+        }],
+        labels: {{labels|safe}}
+    },
+    options: {
+        responsive: true
+    }
+    };
     
     var configCensados = {
     type: 'pie',
@@ -64,9 +85,11 @@
     };
 
     window.onload = function() {
+    var ctx_total = document.getElementById('piechart-total').getContext('2d');
     var ctx_censados = document.getElementById('piechart-censados').getContext('2d');
     var ctx_genero = document.getElementById('piechart-genero').getContext('2d');
     var ctx_poredad = document.getElementById('barchart-poredad').getContext('2d');
+    window.myPie = new Chart(ctx_total, configTotal);
     window.myPie = new Chart(ctx_censados, configCensados);
     window.myPie = new Chart(ctx_genero, configGenero);
     window.myPie = new Chart(ctx_poredad, configPorEdad);
