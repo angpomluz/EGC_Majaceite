@@ -30,6 +30,7 @@ urlpatterns = [
     path('downloadResults/', VisualizerView.downloadResults)
     url(r'^', include('django_telegrambot.urls')),
     url(r'^$', include('bot.urls')),
+    path('actions/', include('actions.urls')),
 ]
 
 for module in settings.MODULES:
