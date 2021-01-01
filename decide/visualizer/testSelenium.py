@@ -6,11 +6,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
-
+from voting.models import Voting, Question, QuestionOption
 from base.tests import BaseTestCase
 
-class AdminTestCase(StaticLiveServerTestCase):
 
+class AdminTestCase(StaticLiveServerTestCase):
 
     def setUp(self):
         
@@ -34,13 +34,17 @@ class AdminTestCase(StaticLiveServerTestCase):
     #Tests de la tarea M2F03   
     def test_ChartLoadPositive(self):
         
-        self.driver.get('http://localhost:8000/visualizer/6/')
-        elements = self.driver.find_elements(By.ID, "piechart-censados")
-        assert len(elements) > 0
-        elements = self.driver.find_elements(By.ID, "piechart-genero")
-        assert len(elements) > 0
-        elements = self.driver.find_elements(By.ID, "barchart-poredad")
-        assert len(elements) > 0
-        assert self.driver.find_element(By.XPATH, "//span[contains(.,\'200\')]").text == "200"
+        votings = Voting.objects.all()
+        
+        if len(votings) > 0:
+        
+            self.driver.get('http://localhost:8000/visualizer/{}/'.format(votings[0].id))
+            elements = self.driver.find_elements(By.ID, "piechart-censados")
+            assert len(elements) > 0
+            elements = self.driver.find_elements(By.ID, "piechart-genero")
+            assert len(elements) > 0
+            elements = self.driver.find_elements(By.ID, "barchart-poredad")
+            assert len(elements) > 0
+            assert self.driver.find_element(By.XPATH, "//span[contains(.,\'200\')]").text == "200"
         
     #Fin test de la tarea M2F03
