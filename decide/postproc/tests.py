@@ -7,7 +7,7 @@ from base import mods
 
 
 class PostProcTestCase(APITestCase):
-
+    
     def setUp(self):
         self.client = APIClient()
         mods.mock_query(self.client)
@@ -42,3 +42,4 @@ class PostProcTestCase(APITestCase):
 
         values = response.json()
         self.assertEqual(values, expected_result)
+    
