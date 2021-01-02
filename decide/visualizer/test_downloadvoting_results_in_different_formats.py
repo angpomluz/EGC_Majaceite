@@ -53,7 +53,7 @@ class TestDownloadvotingresultsindifferentformats():
 
 """
 
-
+"""
 class TestDownloadResults(StaticLiveServerTestCase):
   def setUp(self):
     #Load base test functionality for decide
@@ -93,7 +93,7 @@ class TestDownloadResults(StaticLiveServerTestCase):
     dropdown.find_element(By.XPATH, "//option[. = 'PDF']").click()
     self.driver.find_element(By.NAME, "Formato").click()
     self.driver.find_element(By.CSS_SELECTOR, "input:nth-child(3)").click()
-  
+"""  
 
     
 
