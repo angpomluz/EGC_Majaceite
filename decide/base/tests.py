@@ -6,7 +6,7 @@ from base import mods
 
 
 class BaseTestCase(APITestCase):
-    """
+    
     def setUp(self):
         self.client = APIClient()
         self.token = None
@@ -34,4 +34,4 @@ class BaseTestCase(APITestCase):
 
     def logout(self):
         self.client.credentials()
-     """
+     
