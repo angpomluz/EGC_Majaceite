@@ -38,6 +38,8 @@ class AdminTestCase(StaticLiveServerTestCase):
     
     def test_simpleCorrectVisualizer(self):
         
+        first_voting = Voting.objects.all()[0]
+        
         self.driver.get('http://localhost:8000/visualizer/6/')
         #In case of an existing voting, a element with id 'app-visualizer' is shown
         self.assertTrue(len(self.driver.find_elements_by_id('container-piechart-total')) > 0)
