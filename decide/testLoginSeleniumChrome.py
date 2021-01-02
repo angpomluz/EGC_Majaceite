@@ -48,7 +48,7 @@ class AdminTestCase(StaticLiveServerTestCase):
         print(self.driver.current_url)
         #In case of a incorrect loging, a element errornote will be shown
         self.assertTrue(len(self.driver.find_elements_by_class_name('errornote'))==1)
-        
+     """   
     def test_CreateQuestion(self):
         self.driver.get(f'{self.live_server_url}/admin/login/?next=/admin/')
         self.driver.find_element(By.ID, "id_username").click()
@@ -65,7 +65,8 @@ class AdminTestCase(StaticLiveServerTestCase):
         self.driver.find_element(By.ID, "id_options-0-number").send_keys("1")
         self.driver.find_element(By.NAME, "_save").click()
         assert self.driver.find_element(By.CSS_SELECTOR, ".row1:nth-child(1) a").text == "test question"
-        
+     """
+     
     def test_ejercicio5(self):
         self.driver.get(f'{self.live_server_url}/admin/login/?next=/admin/')
         self.driver.find_element(By.ID, "id_username").send_keys("administrador")
