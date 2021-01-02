@@ -27,7 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('doc/', schema_view),
     path('gateway/', include('gateway.urls')),
-    path('downloadResults/', VisualizerView.downloadResults)
+    path('downloadResults/', VisualizerView.downloadResults),
     url(r'^', include('django_telegrambot.urls')),
     url(r'^$', include('bot.urls')),
     path('actions/', include('actions.urls')),
