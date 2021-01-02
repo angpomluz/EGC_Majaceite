@@ -7,10 +7,15 @@ notifications:
     - ferwalrod@alum.us.es
   on_success: always
   on_failure: always
+env:
+  global:
+    - MOZ_HEADLESS=1
 addons:
   postgresql: "9.4"
   chrome: stable
   firefox: "49.0"
+before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 before_script:
   - psql -U postgres -c "create user decide password 'decide'"
   - psql -U postgres -c "create database test_decide owner decide"
@@ -27,3 +32,4 @@ script:
   - coverage run --branch --source=. ./manage.py test --keepdb --with-xunit
   - coverage xml
   - python-codacy-coverage -r coverage.xml
+
