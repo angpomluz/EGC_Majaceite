@@ -1,8 +1,3 @@
-import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE","decide.settings")
-import django
-django.setup()
-
 from django.test import TestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
@@ -11,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from voting.models import Voting
 
 from base.tests import BaseTestCase
 
@@ -38,11 +34,13 @@ class AdminTestCase(StaticLiveServerTestCase):
     
     def test_simpleCorrectVisualizer(self):
         
-        first_voting = Voting.objects.all()[0]
+        votings = Voting.objects.all()
         
-        self.driver.get('http://localhost:8000/visualizer/6/')
-        #In case of an existing voting, a element with id 'app-visualizer' is shown
-        self.assertTrue(len(self.driver.find_elements_by_id('container-piechart-total')) > 0)
+        if len(votings) > 0:
+        
+            self.driver.get('http://localhost:8000/visualizer/{}/'.votings[0])
+            #In case of an existing voting, a element with id 'app-visualizer' is shown
+            self.assertTrue(len(self.driver.find_elements_by_id('container-piechart-total')) > 0)
 
     def test_simpleIncorrectVisualizer(self):
         
