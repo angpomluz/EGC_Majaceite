@@ -12,22 +12,8 @@ from rest_framework.test import APIClient
 from rest_framework.test import APITestCase
 from base.tests import BaseTestCase
 from voting.models import Voting, Question, QuestionOption
-
-# Create your tests here.
-import random
-import itertools
-from django.utils import timezone
-from django.conf import settings
-from django.contrib.auth.models import User
-from django.test import TestCase
-from base import mods
-from mixnet.mixcrypt import ElGamal
-from mixnet.mixcrypt import MixCrypt
-from mixnet.models import Auth
-from rest_framework.test import APIClient
-from rest_framework.test import APITestCase
-from base.tests import BaseTestCase
-from voting.models import Voting, Question, QuestionOption
+from visualizer.utils import readCSV
+from visualizer.views import calculate_age, get_votes_by_age
 
 # Create your tests here.
 
@@ -190,6 +176,53 @@ class VisualizerTestCase(BaseTestCase):
         data={'VotID':voting.pk,'Formato':'csv'}
         response=self.client.get('/downloadResults/',data,format='json')
         self.assertEqual(response.status_code,404)
+    def test_readCSV_positive(self):
+        
+        fpath="visualizer/resources/EGCusers.csv"
+        read_users = readCSV(fpath)
+        
+        self.assertTrue(len(read_users) == 200)
+        
+    def test_readCSV_bad_path_negative(self):
+        
+        fpath="visualizer/resources/fakefile.csv"
+        ex_catch = False
+        try:
+            readCSV(fpath)
+        
+        except(FileNotFoundError, IOError):
+            ex_catch = True
+            
+        self.assertTrue(ex_catch)
+            
+    def test_get_votes_by_age_positive(self):
+        
+        read_users = readCSV("visualizer/resources/EGCusers.csv")
+        
+        age_range = [18,25,35,55,65]
+        birthdates = [user['birthdate'] for user in read_users]
+        votes_by_age = get_votes_by_age(age_range,birthdates)
+        
+        self.assertTrue(votes_by_age[18] > 0)
+        
+    def test_calculate_age_positive(self):
+        
+        born = "15/11/2000"
+        age = calculate_age(born,True)
+        
+        self.assertTrue(age == 20)
+        
+    def test_calculate_age_bad_format_negative(self):
+        
+        err_triggered = False
+        try:
+            born = "2000/15/11"
+            calculate_age(born,True)
+            
+        except(ValueError):
+            err_triggered=True
+        
+        self.assertTrue(err_triggered)
 
     
 class VisualizerTestCase2(BaseTestCase):
