@@ -18,7 +18,7 @@ from voting.models import Voting
 
 
 class StoreTextCase(BaseTestCase):
-
+    """
     def setUp(self):
         super().setUp()
         self.question = Question(desc='qwerty')
@@ -193,3 +193,4 @@ class StoreTextCase(BaseTestCase):
         self.voting.save()
         response = self.client.post('/store/', data, format='json')
         self.assertEqual(response.status_code, 401)
+    """
