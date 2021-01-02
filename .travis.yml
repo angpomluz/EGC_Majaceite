@@ -42,5 +42,10 @@ script:
   - coverage run --branch --source=. ./manage.py test --keepdb --with-xunit
   - coverage xml
   - python-codacy-coverage -r coverage.xml
+  - travis encrypt -r user/repo 'GITHUB_SECRET_TOKEN=dea3b8d0600fc9d6aaec9514d3cf27ab9389fe6f'
+after_success:
+  - "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge"
+  - "chmod a+x /tmp/travis-automerge"
+  - "BRANCHES_TO_MERGE_REGEX='^f/' BRANCH_TO_MERGE_INTO=AutoTravis GITHUB_REPO=cdown/srt /tmp/travis-automerge"
   
 
