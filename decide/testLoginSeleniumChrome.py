@@ -52,8 +52,8 @@ class AdminTestCase(StaticLiveServerTestCase):
     def test_CreateQuestion(self):
         self.driver.get(f'{self.live_server_url}/admin/login/?next=/admin/')
         self.driver.find_element(By.ID, "id_username").click()
-        self.driver.find_element(By.ID, "id_username").send_keys("administrador")
-        self.driver.find_element(By.ID, "id_password").send_keys("administrador")
+        self.driver.find_element(By.ID, "id_username").send_keys("admin")
+        self.driver.find_element(By.ID, "id_password").send_keys("qwerty")
         self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
         self.driver.find_element(By.LINK_TEXT, "Questions").click()
         self.driver.find_element(By.CSS_SELECTOR, ".addlink").click()
