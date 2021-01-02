@@ -50,7 +50,7 @@ class AdminTestCase(StaticLiveServerTestCase):
         self.assertTrue(len(self.driver.find_elements_by_class_name('errornote'))==1)
         
     def test_CreateQuestion(self):
-        self.driver.get("http://localhost:8000/admin/login/?next=/admin/")
+        self.driver.get(f'{self.live_server_url}/admin/login/?next=/admin/')
         self.driver.find_element(By.ID, "id_username").click()
         self.driver.find_element(By.ID, "id_username").send_keys("administrador")
         self.driver.find_element(By.ID, "id_password").send_keys("administrador")
@@ -66,7 +66,7 @@ class AdminTestCase(StaticLiveServerTestCase):
         assert self.driver.find_element(By.CSS_SELECTOR, ".row1:nth-child(1) a").text == "test question"
         
     def test_ejercicio5(self):
-        self.driver.get("http://localhost:8000/admin/login/?next=/admin/")
+        self.driver.get(f'{self.live_server_url}/admin/login/?next=/admin/')
         self.driver.find_element(By.ID, "id_username").send_keys("administrador")
         self.driver.find_element(By.ID, "id_password").send_keys("administrador")
         self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
