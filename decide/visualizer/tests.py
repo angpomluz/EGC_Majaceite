@@ -270,6 +270,38 @@ class VisualizerTestCase2(BaseTestCase):
         response=self.client.get('/downloadResults/',data,format='json')
         self.assertEqual(response.status_code,200)
 
+    
+    
+class VisualizerTestCase3(BaseTestCase):
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
+
+    def create_voting(self):
+        q = Question(desc='test question')
+        q.save()
+        postprocs=[]
+        for i in range(5):
+            opt = QuestionOption(question=q, option='option {}'.format(i+1))
+            opt.save()
+            postOpt={'votes':0,'number':i,'option':'option {}'.format(i+1),'postproc':0}
+            postprocs.append(postOpt)
+        v = Voting(name='test voting', question=q)
+        v.postproc=postprocs
+        v.start_date=timezone.now()
+        v.end_date=timezone.now()
+        v.tally=5
+        v.save()
+
+        a, _ = Auth.objects.get_or_create(url=settings.BASEURL,
+                                          defaults={'me': True, 'name': 'test auth'})
+        a.save()
+        v.auths.add(a)
+
+        return v
+
     def test_renderPDF_positive(self):
         fpath="visualizer/invoice.html"
 
@@ -286,7 +318,7 @@ class VisualizerTestCase2(BaseTestCase):
         }
         render_template_response = render_to_pdf(fpath, context)
         
-        self.assertTrue(True)
+        self.assertTrue(len(render_template_response.items())>0)
     
     def test_renderPDF_positive_2(self):
         fpath="visualizer/invoice.html"
@@ -306,28 +338,5 @@ class VisualizerTestCase2(BaseTestCase):
         "data": listed_values,
         }
         render_template_response = render_to_pdf(fpath, context)
-        
-        self.assertTrue(True)
-
-    def test_renderPDF_negative(self):
-        fpath="visualizer/invoice.html"
-
-        voting=self.create_voting()
-
-        listed_values=[]
-        for d in voting.postproc:
-            Values=[]
-            for v in d.values():
-                Values.append(v)
-            listed_values.append(Values)
-
-        context = {
-        "voting_id": null,
-        "voting_name": voting.name,
-        "voting_question": voting.question,
-        "data": listed_values,
-        }
-        render_template_response = render_to_pdf(fpath, context)
-        
-        self.assertTrue(render_template_response == None)
-    
+        print(render_template_response.items())
+        self.assertTrue(len(render_template_response.items())>0)
