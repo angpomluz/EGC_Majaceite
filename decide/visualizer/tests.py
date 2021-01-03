@@ -13,6 +13,7 @@ from rest_framework.test import APITestCase
 from base.tests import BaseTestCase
 from voting.models import Voting, Question, QuestionOption
 from visualizer.utils import readCSV
+from visualizer.utils import render_to_pdf
 from visualizer.views import calculate_age, get_votes_by_age
 
 # Create your tests here.
@@ -268,4 +269,65 @@ class VisualizerTestCase2(BaseTestCase):
         data={'VotID':voting.pk,'Formato':'pdf'}
         response=self.client.get('/downloadResults/',data,format='json')
         self.assertEqual(response.status_code,200)
+
+    def test_renderPDF_positive(self):
+        fpath="visualizer/invoice.html"
+
+        voting=self.create_voting()
+
+        listed_values=[]
+        Values=[0, 1, 'Unreal']
+        listed_values.append(Values)
+        context = {
+        "voting_id": voting.pk,
+        "voting_name": voting.name,
+        "voting_question": voting.question,
+        "data": listed_values,
+        }
+        render_template_response = render_to_pdf(fpath, context)
+        
+        self.assertTrue(True)
+    
+    def test_renderPDF_positive_2(self):
+        fpath="visualizer/invoice.html"
+
+        voting=self.create_voting()
+
+        listed_values=[]
+        for d in voting.postproc:
+            Values=[]
+            for v in d.values():
+                Values.append(v)
+            listed_values.append(Values)
+        context = {
+        "voting_id": voting.pk,
+        "voting_name": voting.name,
+        "voting_question": voting.question,
+        "data": listed_values,
+        }
+        render_template_response = render_to_pdf(fpath, context)
+        
+        self.assertTrue(True)
+
+    def test_renderPDF_negative(self):
+        fpath="visualizer/invoice.html"
+
+        voting=self.create_voting()
+
+        listed_values=[]
+        for d in voting.postproc:
+            Values=[]
+            for v in d.values():
+                Values.append(v)
+            listed_values.append(Values)
+
+        context = {
+        "voting_id": null,
+        "voting_name": voting.name,
+        "voting_question": voting.question,
+        "data": listed_values,
+        }
+        render_template_response = render_to_pdf(fpath, context)
+        
+        self.assertTrue(render_template_response == None)
     
