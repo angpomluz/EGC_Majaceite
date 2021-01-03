@@ -12,6 +12,8 @@ addons:
   postgresql: "9.4"
   chrome: stable
   firefox: latest
+  snaps:
+    - ngrok
 
 before_script:
   - psql -U postgres -c "create user decide password 'decide'"
@@ -24,6 +26,10 @@ install:
   - pip install -r requirements.txt
   - pip install codacy-coverage
   - pip install selenium
+  - pip install xhtml2pdf
+  - pip install django-telegrambot
+  - pip install slack
+  - pip install slackclient
   - wget -N https://chromedriver.storage.googleapis.com/87.0.4280.88/chromedriver_linux64.zip -P ~/
   - unzip ~/chromedriver_linux64.zip -d ~/
   - rm ~/chromedriver_linux64.zip
