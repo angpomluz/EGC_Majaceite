@@ -25,7 +25,7 @@ install:
   - pip install codacy-coverage
   - pip install selenium
   - pip install xhtml2pdf
-  - gem install travis
+  - gem install travis && travis login && travis token
   - wget -N https://chromedriver.storage.googleapis.com/87.0.4280.88/chromedriver_linux64.zip -P ~/
   - unzip ~/chromedriver_linux64.zip -d ~/
   - rm ~/chromedriver_linux64.zip
@@ -43,7 +43,6 @@ script:
   - coverage run --branch --source=. ./manage.py test --keepdb --with-xunit
   - coverage xml
   - python-codacy-coverage -r coverage.xml
-  - travis login --com --github-token 6ochQWb0UQBsLu7uZ8QG3Q
   - travis encrypt -r user/repo 'GITHUB_SECRET_TOKEN=a6625ee1319457b2d491b12f3ef87815190b74b5'
 after_success:
   - "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge"
