@@ -13,6 +13,7 @@ from rest_framework.test import APITestCase
 from base.tests import BaseTestCase
 from voting.models import Voting, Question, QuestionOption
 from visualizer.utils import readCSV
+from visualizer.utils import render_to_pdf
 from visualizer.views import calculate_age, get_votes_by_age
 
 # Create your tests here.
@@ -268,4 +269,74 @@ class VisualizerTestCase2(BaseTestCase):
         data={'VotID':voting.pk,'Formato':'pdf'}
         response=self.client.get('/downloadResults/',data,format='json')
         self.assertEqual(response.status_code,200)
+
     
+    
+class VisualizerTestCase3(BaseTestCase):
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
+
+    def create_voting(self):
+        q = Question(desc='test question')
+        q.save()
+        postprocs=[]
+        for i in range(5):
+            opt = QuestionOption(question=q, option='option {}'.format(i+1))
+            opt.save()
+            postOpt={'votes':0,'number':i,'option':'option {}'.format(i+1),'postproc':0}
+            postprocs.append(postOpt)
+        v = Voting(name='test voting', question=q)
+        v.postproc=postprocs
+        v.start_date=timezone.now()
+        v.end_date=timezone.now()
+        v.tally=5
+        v.save()
+
+        a, _ = Auth.objects.get_or_create(url=settings.BASEURL,
+                                          defaults={'me': True, 'name': 'test auth'})
+        a.save()
+        v.auths.add(a)
+
+        return v
+
+    def test_renderPDF_positive(self):
+        fpath="visualizer/invoice.html"
+
+        voting=self.create_voting()
+
+        listed_values=[]
+        Values=[0, 1, 'Unreal']
+        listed_values.append(Values)
+        context = {
+        "voting_id": voting.pk,
+        "voting_name": voting.name,
+        "voting_question": voting.question,
+        "data": listed_values,
+        }
+        render_template_response = render_to_pdf(fpath, context)
+        
+        self.assertTrue(len(render_template_response.items())>0)
+    
+    def test_renderPDF_positive_2(self):
+        fpath="visualizer/invoice.html"
+
+        voting=self.create_voting()
+
+        listed_values=[]
+        for d in voting.postproc:
+            Values=[]
+            for v in d.values():
+                Values.append(v)
+            listed_values.append(Values)
+        context = {
+        "voting_id": voting.pk,
+        "voting_name": voting.name,
+        "voting_question": voting.question,
+        "data": listed_values,
+        }
+        render_template_response = render_to_pdf(fpath, context)
+        print(render_template_response.items())
+        self.assertTrue(len(render_template_response.items())>0)
