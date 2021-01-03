@@ -95,7 +95,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'decidedb',
         'USER': 'decide',
-	'PASSWORD': 'complexpassword',
+	'PASSWORD': 'decide',
         'HOST': 'localhost',
         'PORT': '5432',
     }
