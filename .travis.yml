@@ -20,6 +20,8 @@ before_script:
 language: python
 python:
   - "3.6"
+Authorization:
+  - token: 6ochQWb0UQBsLu7uZ8QG3Q
 install:
   - pip install -r requirements.txt
   - pip install codacy-coverage
