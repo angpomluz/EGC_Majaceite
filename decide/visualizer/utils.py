@@ -13,7 +13,7 @@ from django.template.loader import get_template
   #      return HttpResponse(result.getvalue(), content_type='application/pdf')
   #  else:
   #      return None
-#import csv
+import csv
 
 #Read a csv file from a given path
 def readCSV(filepath):
