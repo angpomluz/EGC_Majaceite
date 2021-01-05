@@ -31,7 +31,8 @@ class AdminTestCase(StaticLiveServerTestCase):
 
         self.base.tearDown()
         
-    def test_simpleCorrectLogin(self):                    
+    def test_simpleCorrectLogin(self):
+        self.driver.get(f'{self.live_server_url}/admin/logout/')                  
         self.driver.get(f'{self.live_server_url}/admin/')
         self.driver.find_element_by_id('id_username').send_keys("admin")
         self.driver.find_element_by_id('id_password').send_keys("qwerty",Keys.ENTER)
@@ -40,7 +41,8 @@ class AdminTestCase(StaticLiveServerTestCase):
         #In case of a correct loging, a element with id 'user-tools' is shown in the upper right part
         self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))==1)
         
-    def test_simpleWrongLogin(self):                    
+    def test_simpleWrongLogin(self):
+        self.driver.get(f'{self.live_server_url}/admin/logout/')                       
         self.driver.get(f'{self.live_server_url}/admin/')
         self.driver.find_element_by_id('id_username').send_keys("baduser")
         self.driver.find_element_by_id('id_password').send_keys("badpass",Keys.ENTER)
@@ -68,6 +70,7 @@ class AdminTestCase(StaticLiveServerTestCase):
 
      
     def test_ejercicio5(self):
+        self.driver.get(f'{self.live_server_url}/admin/logout/')   
         self.driver.get(f'{self.live_server_url}/admin/login/?next=/admin/')
         self.driver.find_element(By.ID, "id_username").send_keys("administrador")
         self.driver.find_element(By.ID, "id_password").send_keys("administrador")
