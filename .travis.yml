@@ -1,51 +1,57 @@
 dist: xenial
-
 services:
-  - postgresql
+- postgresql
 notifications:
   email:
-    - ferwalrod@alum.us.es
+  - ferwalrod@alum.us.es
   on_success: always
   on_failure: always
-  
 addons:
-  postgresql: "9.4"
+  postgresql: '9.4'
   chrome: stable
   firefox: latest
   snaps:
-    - ngrok
-
+  - ngrok
 before_script:
-  - psql -U postgres -c "create user decide password 'decide'"
-  - psql -U postgres -c "create database test_decide owner decide"
-  - psql -U postgres -c "ALTER USER decide CREATEDB"
+- psql -U postgres -c "create user decide password 'decide'"
+- psql -U postgres -c "create database test_decide owner decide"
+- psql -U postgres -c "ALTER USER decide CREATEDB"
 language: python
 python:
-  - "3.6"
+- '3.6'
 install:
-  - pip install -r requirements.txt
-  - pip install codacy-coverage
-  - pip install selenium
-  - pip install xhtml2pdf
-  - pip install django-telegrambot
-  - pip install slack
-  - pip install slackclient
-  - wget -N https://chromedriver.storage.googleapis.com/87.0.4280.88/chromedriver_linux64.zip -P ~/
-  - unzip ~/chromedriver_linux64.zip -d ~/
-  - rm ~/chromedriver_linux64.zip
-  - sudo mv -f ~/chromedriver /usr/local/share/
-  - sudo chmod +x /usr/local/share/chromedriver
-  - sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
-  - wget -N https://github.com/mozilla/geckodriver/releases/download/v0.28.0/geckodriver-v0.28.0-linux64.tar.gz -P ~/
-  - tar -xzf ~/geckodriver-v0.28.0-linux64.tar.gz -C ~/
-  - rm ~/geckodriver-v0.28.0-linux64.tar.gz
-  - sudo mv -f ~/geckodriver /usr/local/share
-  - sudo chmod +x /usr/local/share/geckodriver
-  - sudo ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver
+- pip install -r requirements.txt
+- pip install codacy-coverage
+- pip install selenium
+- pip install xhtml2pdf
+- pip install django-telegrambot
+- pip install slack
+- pip install slackclient
+- wget -N https://chromedriver.storage.googleapis.com/87.0.4280.88/chromedriver_linux64.zip
+  -P ~/
+- unzip ~/chromedriver_linux64.zip -d ~/
+- rm ~/chromedriver_linux64.zip
+- sudo mv -f ~/chromedriver /usr/local/share/
+- sudo chmod +x /usr/local/share/chromedriver
+- sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+- wget -N https://github.com/mozilla/geckodriver/releases/download/v0.28.0/geckodriver-v0.28.0-linux64.tar.gz
+  -P ~/
+- tar -xzf ~/geckodriver-v0.28.0-linux64.tar.gz -C ~/
+- rm ~/geckodriver-v0.28.0-linux64.tar.gz
+- sudo mv -f ~/geckodriver /usr/local/share
+- sudo chmod +x /usr/local/share/geckodriver
+- sudo ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver
 script:
-  - cd decide
-  - coverage run --branch --source=. ./manage.py test --keepdb --with-xunit
-  - coverage xml
-  - python-codacy-coverage -r coverage.xml
-  
-
+- cd decide
+- cp travis_local_settings.py local_settings.py
+- coverage run --branch --source=. ./manage.py test visualizer --keepdb
+- coverage xml
+- python-codacy-coverage -r coverage.xml
+deploy:
+  provider: heroku
+  app: egc-majaceite
+  strategy: git
+  api_key:
+    secure: Kv02p5SKpjIZB3FujNVgO3OfkRNmiGZZ6/SD1C4zVJrpsQt+OJBm5fgLtxCcrVxyOP/MVBhJ8aw1OPdwI/6F0sC5TSVbOy38K/p9qyWBXqyhJQhQPQPYnt1Nwgxdqv1HSboDZkxbXEqA+oLrSOumiqC9Nb7gqJvsdlNh8Hon0yMQeE9Lu5P5G17nbOFsSPQIVZbSYckes3xjVkIbDb10NhDUWmKTnx4gXGR77Llq+Re8PFn+aCgkWNZKRqpCA4N6jlHwEBvW6D7LX6TWruGru2xPEjPPQtseGVncj6rsrsdqzTZWRrPAqIgqQNwNcZ5A432ARjQwd5RMTk8aFyF8l5HWG3XA8Cr3CV0MKAi2zwJb0ihEGzvsnBdPHewxFoaL7vKCqbK9GZ4vnnX2mWQtE7IrNWClu/Na4AuDRe62wsy32tup+3mdCGPAZUnfNV5Zbu78Qr5Iy6V3mINo1F0WBsvZEZxYx7QeFvKs+JwLruStp3VGPxIYRsCUvWKvzN404TLpQZLEe104QkHIkw5E5ohOmvixfsWa6qIm0orwUKFJKoXXBWvAhoyVLmwPsVDbgsFBla1hwYPsjFJGINL8Syt8ZMBtzVGCVrTXiyv6R9scKhRhyXYf/y67InU41Lu97uC7gAtuHUpvNbKAhU67i6r8RcPolV7BIxpt3NfmDtc=
+  on:
+    branch: QA
