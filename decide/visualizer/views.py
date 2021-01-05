@@ -151,6 +151,7 @@ class VisualizerView(TemplateView):
 
             # Aquí hacemos del json un diccionario
             voting_information = json.loads(voting)
+            #Falla por la variable postproc, está None----------------------------------------
             postproc = voting_information["postproc"]
 
             # Metemos en data y labels la información necesaria
