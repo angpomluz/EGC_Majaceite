@@ -13,7 +13,7 @@ from base.tests import BaseTestCase
 
 class AdminTestCase(StaticLiveServerTestCase):
 
-
+  """
   def setUp(self):
         
         #Load base test functionality for decide
@@ -46,7 +46,7 @@ class AdminTestCase(StaticLiveServerTestCase):
     actions1.move_to_element(element1).perform()
     element = self.driver.find_element(By.CSS_SELECTOR, "body")
     actions = ActionChains(self.driver)
-    actions.move_to_element(element, 0, 0).perform()
+    actions.move_to_element(element).perform()
     self.driver.find_element(By.CSS_SELECTOR, ".ql-editor > p").send_keys("-res_v3")
     self.driver.find_element(By.CSS_SELECTOR, ".c-icon--paperplane-filled").click()
     self.driver.execute_script("window.scrollTo(0,0)")
@@ -62,7 +62,7 @@ class AdminTestCase(StaticLiveServerTestCase):
     actions.move_to_element(element).perform()
     element = self.driver.find_element(By.CSS_SELECTOR, "body")
     actions = ActionChains(self.driver)
-    actions.move_to_element(element, 0, 0).perform()
+    actions.move_to_element(element).perform()
     self.driver.find_element(By.ID, "email").click()
     self.driver.find_element(By.ID, "email").send_keys("PruebasEGC99@gmail.com")
     self.driver.find_element(By.ID, "password").send_keys("paraprobar99")
@@ -71,3 +71,4 @@ class AdminTestCase(StaticLiveServerTestCase):
     self.driver.find_element(By.CSS_SELECTOR, ".ql-editor > p").send_keys("-estonosesuncomando")
     text = self.driver.find_element(By.CSS_SELECTOR, ".c-message_list > .c-scrollbar__hider").text
     assert text != "Nuevo"
+  """

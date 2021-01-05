@@ -16,6 +16,7 @@ from mixnet.models import Auth
 from voting.models import Voting, Question, QuestionOption
 
 class VotingModelTC(BaseTestCase):
+    
     def setUp(self):
         
         q = Question(desc='test question to save in db')
@@ -67,12 +68,6 @@ class VotingTestCase(BaseTestCase):
 
     def tearDown(self):
         super().tearDown()
-        
-    def test_Voting_toString(self):
-        v = self.create_voting()
-        self.assertEquals(str(v),"test voting")
-        self.assertEquals(str(v.question),"test question")
-        self.assertEquals(str(v.question.options.all()[0]),"option 1 (2)")
 
     def encrypt_msg(self, msg, v, bits=settings.KEYBITS):
         pk = v.pub_key
@@ -132,7 +127,7 @@ class VotingTestCase(BaseTestCase):
                 voter = voters.pop()
                 mods.post('store', json=data)
         return clear
-
+    
     def test_complete_voting(self):
         v = self.create_voting()
         self.create_voters(v)
@@ -155,6 +150,7 @@ class VotingTestCase(BaseTestCase):
 
         for q in v.postproc:
             self.assertEqual(tally.get(q["number"], 0), q["votes"])
+   
 
     def test_create_voting_from_api(self):
         data = {'name': 'Example'}
@@ -258,3 +254,4 @@ class VotingTestCase(BaseTestCase):
         response = self.client.put('/voting/{}/'.format(voting.pk), data, format='json')
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json(), 'Voting already tallied')
+    
