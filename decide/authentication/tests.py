@@ -9,7 +9,7 @@ from base import mods
 
 
 class AuthTestCase(APITestCase):
-
+    
     def setUp(self):
         self.client = APIClient()
         mods.mock_query(self.client)
@@ -48,7 +48,7 @@ class AuthTestCase(APITestCase):
         self.assertEqual(response.status_code, 200)
 
         user = response.json()
-        self.assertEqual(user['id'], 1)
+        self.assertEqual(user['id'], 3)
         self.assertEqual(user['username'], 'voter1')
 
     def test_getuser_invented_token(self):
@@ -124,7 +124,7 @@ class AuthTestCase(APITestCase):
         token.update({'username': 'user1', 'password': 'pwd1'})
         response = self.client.post('/authentication/register/', token, format='json')
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(
-            sorted(list(response.json().keys())),
-            ['token', 'user_pk']
-        )
+        
+        self.assertEqual(sorted(list(response.json().keys())),['token', 'user_pk'])
+     
+
