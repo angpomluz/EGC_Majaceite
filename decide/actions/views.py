@@ -13,7 +13,7 @@ from django.conf import settings
 
 @csrf_exempt
 def event_hook(request):
-    client = slack.WebClient(settings.BOT_USER_ACCESS_TOKEN)
+    client = slack.WebClient(settings.OAUTH_ACCESS_TOKEN)
     json_dict = json.loads(request.body.decode('utf-8'))
     
     if json_dict['token'] != settings.VERIFICATION_TOKEN:
