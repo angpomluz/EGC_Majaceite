@@ -10,7 +10,7 @@ from base import mods
 import visualizer.views
 from voting.models import *
 
-BOT_USER_ACCESS_TOKEN= 'xoxb-1541218143492-1535266194915-hl4UmgorJAwks2ylW2VFuWQN'
+BOT_USER_ACCESS_TOKEN= 'xoxb-1541218143492-1535266194915-ty94gz7jXgXENTC2aRIXYowm'
 VERIFICATION_TOKEN='yi1ydbfn1xMrjJ1YAVH7MVUz'
 
 @csrf_exempt
