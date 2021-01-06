@@ -37,7 +37,7 @@ DJANGO_TELEGRAMBOT = {
                         # NB: if use polling you must provide to run
                         # a management command that starts a worker
 
-    'WEBHOOK_SITE' : 'https://97fe66912d92.ngrok.io/admin/django-telegrambot',
+    'WEBHOOK_SITE' : 'https://bcbec9e902b8.ngrok.io/admin/django-telegrambot',
     'WEBHOOK_PREFIX' : '/prefix', # (Optional[str]) # If this value is specified,
                                   # a prefix is added to webhook url
 
@@ -95,7 +95,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'decidedb',
         'USER': 'decide',
-	'PASSWORD': 'complexpassword',
+	'PASSWORD': 'decide',
         'HOST': 'localhost',
         'PORT': '5432',
     }

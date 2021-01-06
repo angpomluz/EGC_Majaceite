@@ -67,4 +67,3 @@ def event_hook(request):
         client.chat_postMessage(channel=channel, text=response_msg)
         return HttpResponse(status=200)
     return HttpResponse(status=200)
-
