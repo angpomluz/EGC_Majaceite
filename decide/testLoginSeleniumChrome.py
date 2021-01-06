@@ -31,23 +31,25 @@ class AdminTestCase(StaticLiveServerTestCase):
 
         self.base.tearDown()
         
-    def test_simpleCorrectLogin(self):                    
-        self.driver.get(f'{self.live_server_url}/admin/')
-        self.driver.find_element_by_id('id_username').send_keys("admin")
-        self.driver.find_element_by_id('id_password').send_keys("qwerty",Keys.ENTER)
+    # def test_simpleCorrectLogin(self):
+    #     self.driver.get(f'{self.live_server_url}/admin/logout/')                  
+    #     self.driver.get(f'{self.live_server_url}/admin/')
+    #     self.driver.find_element_by_id('id_username').send_keys("admin")
+    #     self.driver.find_element_by_id('id_password').send_keys("qwerty",Keys.ENTER)
         
-        print(self.driver.current_url)
-        #In case of a correct loging, a element with id 'user-tools' is shown in the upper right part
-        self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))==1)
+    #     print(self.driver.current_url)
+    #     #In case of a correct loging, a element with id 'user-tools' is shown in the upper right part
+    #     self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))==1)
         
-    def test_simpleWrongLogin(self):                    
-        self.driver.get(f'{self.live_server_url}/admin/')
-        self.driver.find_element_by_id('id_username').send_keys("baduser")
-        self.driver.find_element_by_id('id_password').send_keys("badpass",Keys.ENTER)
+    # def test_simpleWrongLogin(self):
+    #     self.driver.get(f'{self.live_server_url}/admin/logout/')                       
+    #     self.driver.get(f'{self.live_server_url}/admin/')
+    #     self.driver.find_element_by_id('id_username').send_keys("baduser")
+    #     self.driver.find_element_by_id('id_password').send_keys("badpass",Keys.ENTER)
         
-        print(self.driver.current_url)
-        #In case of a incorrect loging, a element errornote will be shown
-        self.assertTrue(len(self.driver.find_elements_by_class_name('errornote'))==1)
+    #     print(self.driver.current_url)
+    #     #In case of a incorrect loging, a element errornote will be shown
+    #     self.assertTrue(len(self.driver.find_elements_by_class_name('errornote'))==1)
   
    # def test_CreateQuestion(self):
    #    self.driver.get(f'{self.live_server_url}/admin/login/?next=/admin/')
@@ -67,11 +69,13 @@ class AdminTestCase(StaticLiveServerTestCase):
    #    assert self.driver.find_element(By.CSS_SELECTOR, ".row1:nth-child(1) a").text == "test question"
 
      
-    def test_ejercicio5(self):
-        self.driver.get(f'{self.live_server_url}/admin/login/?next=/admin/')
-        self.driver.find_element(By.ID, "id_username").send_keys("administrador")
-        self.driver.find_element(By.ID, "id_password").send_keys("administrador")
-        self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
+    # def test_ejercicio5(self):
+        
+    #     self.driver.get(f'{self.live_server_url}/admin/logout/')   
+    #     self.driver.get(f'{self.live_server_url}/admin/login/?next=/admin/')
+    #     self.driver.find_element(By.ID, "id_username").send_keys("administrador")
+    #     self.driver.find_element(By.ID, "id_password").send_keys("administrador")
+    #     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
     
     
         
