@@ -10,12 +10,15 @@ from base import mods
 import visualizer.views
 from voting.models import *
 
+BOT_USER_ACCESS_TOKEN= 'xoxb-1541218143492-1535266194915-UQI55HlBMyrnGYwriL4VThn6'
+VERIFICATION_TOKEN='yi1ydbfn1xMrjJ1YAVH7MVUz'
+
 @csrf_exempt
 def event_hook(request):
-    client = slack.WebClient(token= settings.BOT_USER_ACCESS_TOKEN)
+    client = slack.WebClient(BOT_USER_ACCESS_TOKEN)
     json_dict = json.loads(request.body.decode('utf-8'))
     
-    if json_dict['token'] != settings.VERIFICATION_TOKEN:
+    if json_dict['token'] != VERIFICATION_TOKEN:
         return HttpResponse(status=403)
     
     if 'type' in json_dict:
@@ -64,4 +67,3 @@ def event_hook(request):
         client.chat_postMessage(channel=channel, text=response_msg)
         return HttpResponse(status=200)
     return HttpResponse(status=200)
-
