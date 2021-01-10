@@ -28,7 +28,7 @@ APIS = {
     'django_telegrambot': 'http://localhost:8000',
 }
 
-BASEURL = 'http://localhost:8000'
+BASEURL = 'https://d614252b6be5.ngrok.io'
 
 DJANGO_TELEGRAMBOT = {
 
