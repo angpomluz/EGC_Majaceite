@@ -75,7 +75,7 @@ class TelegramTestBot(StaticLiveServerTestCase):
         self.assertIsNotNone(getVoting(votingId))
     
     def test_existsbot(self):
-        self.driver.get("http://localhost:8000/")
+        self.driver.get("http://localhost:8000/bot/")
         self.driver.find_element(By.LINK_TEXT, "Django-Telegrambot Dashboard").click()
         self.driver.find_element(By.ID, "id_username").send_keys("administrador")
         self.driver.find_element(By.ID, "id_password").click()
