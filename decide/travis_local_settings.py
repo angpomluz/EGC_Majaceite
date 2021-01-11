@@ -38,4 +38,4 @@ DATABASES = {
 }
 
 # number of bits for the key, all auths should use the same number of bits
-KEYBITS = 128
+KEYBITS = 256

@@ -250,7 +250,7 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 STATIC_URL = '/static/'
 
 # number of bits for the key, all auths should use the same number of bits
-KEYBITS = 128
+KEYBITS = 256
 
 # Versioning
 ALLOWED_VERSIONS = ['v1', 'v2']
