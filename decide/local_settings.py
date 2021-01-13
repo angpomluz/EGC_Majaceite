@@ -14,21 +14,21 @@ MODULES = [
     'bot',
 ]
 
-APIS = {
-    'authentication': 'http://localhost:8000',
-    'base': 'http://localhost:8000',
-    'booth': 'http://localhost:8000',
-    'census': 'http://localhost:8000',
-    'mixnet': 'http://localhost:8000',
-    'postproc': 'http://localhost:8000',
-    'store': 'http://localhost:8000',
-    'visualizer': 'http://localhost:8000',
-    'voting': 'http://localhost:8000',
-    'bot': 'http://localhost:8000',
-    'django_telegrambot': 'http://localhost:8000',
-}
+BASEURL = 'https://3b5cc28c4379.ngrok.io'
 
-BASEURL = 'https://d614252b6be5.ngrok.io'
+APIS = {
+    'authentication': BASEURL,
+    'base': BASEURL,
+    'booth': BASEURL,
+    'census': BASEURL,
+    'mixnet': BASEURL,
+    'postproc': BASEURL,
+    'store': BASEURL,
+    'visualizer': BASEURL,
+    'voting': BASEURL,
+    'bot': BASEURL,
+    'django_telegrambot': BASEURL,
+}
 
 DJANGO_TELEGRAMBOT = {
 
