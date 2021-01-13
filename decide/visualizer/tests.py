@@ -177,6 +177,7 @@ class VisualizerTestCase(BaseTestCase):
         data={'VotID':voting.pk,'Formato':'csv'}
         response=self.client.get('/downloadResults/',data,format='json')
         self.assertEqual(response.status_code,404)
+    
     def test_readCSV_positive(self):
         
         fpath="visualizer/resources/EGCusers.csv"
@@ -195,6 +196,17 @@ class VisualizerTestCase(BaseTestCase):
             ex_catch = True
             
         self.assertTrue(ex_catch)
+
+    def test_readCSV_wrong_delimiter(self):
+        
+        fpath="visualizer/resources/EGCusersbaddelimiter.csv"
+        err_triggered = False
+        try:
+            read_users = readCSV(fpath)            
+        except(IndexError):
+            err_triggered=True
+        
+        self.assertTrue(err_triggered)
             
     def test_get_votes_by_age_positive(self):
         
@@ -340,3 +352,27 @@ class VisualizerTestCase3(BaseTestCase):
         render_template_response = render_to_pdf(fpath, context)
         print(render_template_response.items())
         self.assertTrue(len(render_template_response.items())>0)
+
+    def test_visualize_voting(self):
+        q = Question(desc='test question')
+        q.save()
+        postprocs=[]
+        for i in range(5):
+            opt = QuestionOption(question=q, option='option {}'.format(i+1))
+            opt.save()
+            postOpt={'votes':0,'number':i,'option':'option {}'.format(i+1),'postproc':0}
+            postprocs.append(postOpt)
+        v = Voting(name='test voting', question=q)
+        v.postproc=postprocs
+        v.start_date=timezone.now()
+        v.end_date=timezone.now()
+        v.tally=5
+        v.save()
+
+        a, _ = Auth.objects.get_or_create(url=settings.BASEURL,
+                                          defaults={'me': True, 'name': 'test auth'})
+        a.save()
+        v.auths.add(a)
+        
+        response = self.client.get('/visualizer/1/')
+        self.assertEquals(response.status_code, 200)
