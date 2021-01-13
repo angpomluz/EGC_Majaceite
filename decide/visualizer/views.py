@@ -177,8 +177,12 @@ class VisualizerView(TemplateView):
 
         return context
     
-# Receives a range of ages and a list of birthdates and returns a list containing
-# the number of people in each age range
+# Receives a range of ages and a list of birthdates and
+# 
+# Parameters:   age_range   -> The range of ages for clasify the birthdates
+#               birthdates  -> List of strings in format mm/dd/yyyy
+#
+# Returns: a dictionary containing the number of people in each age range
 def get_votes_by_age(age_range,birthdates):
     
     ages=[]
@@ -197,6 +201,12 @@ def get_votes_by_age(age_range,birthdates):
             
     return res
 
+# Calculate de age from a birthdate
+# 
+# Parameters:   born        -> var containing the birhthdate
+#               is_string   -> determine if the born var is string or date type
+#
+# Returns: The age calculated from the born parameter
 def calculate_age(born, is_string=False):
     
     if is_string:

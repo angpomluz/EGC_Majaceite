@@ -15,7 +15,11 @@ def render_to_pdf(template_src, context_dict={}):
         return None
 import csv
 
-#Read a csv file from a given path
+# Read a csv file from a local given path
+# 
+# Parameters: filepath -> Path to the csv file
+# Returns: returns a list of dictionaries, each dictionary represents a row of the csv
+# cotaining as pairs key/value the column name and his val
 def readCSV(filepath):
     
     result = []
