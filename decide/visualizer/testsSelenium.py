@@ -149,11 +149,25 @@ class AdminTestCase(StaticLiveServerTestCase):
             #In case of an existing voting, a element with id 'app-visualizer' is shown
             self.assertTrue(len(self.driver.find_elements_by_id('container-piechart-total')) > 0)
      
-    def test_simpleIncorrectVisualizer(self):
-        """
-        self.driver.get('http://localhost:8000/visualizer/999/')
-        #In case of an inexisting voting, a element with id 'piechart-total' is shown
+    def test_readvoitingwithouttally(self):
+        self.driver.get(f'{self.live_server_url}/visualizer/6/')
+        elements = self.driver.find_elements(By.XPATH, "//div[@id=\'app-visualizer\']/div/div/table/tbody/tr/td")
+        assert len(elements) == 0    
+    
+    def test_visualizernonexistentvoting(self):
+        self.driver.get(f'{self.live_server_url}/visualizer/77/')
         elements = self.driver.find_elements(By.ID, "piechart-total")
         assert len(elements) == 0
-        """
 
+
+    def test_visualizebadvoting(self):
+        self.driver.get(f'{self.live_server_url}/admin/login/?next=/admin/')
+        self.driver.find_element(By.CSS_SELECTOR, "html").click()
+        self.driver.find_element(By.ID, "id_username").click()
+        self.driver.find_element(By.ID, "id_username").send_keys("juanp")
+        self.driver.find_element(By.ID, "id_password").send_keys("contrasena")
+        self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
+        self.driver.get(f'{self.live_server_url}/admin/voting/voting/355/change/')
+        print(self.driver.current_url)
+        #In case of a incorrect loging, a element errornote will be shown
+        self.assertTrue(len(self.driver.find_elements_by_class_name('app-voting model-voting change-form vsc-initialized'))==0)
