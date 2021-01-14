@@ -26,6 +26,8 @@ from django.utils import timezone
 from mixnet.models import Auth
 from django.conf import settings
 
+from decide.settings import BASEURL
+
 class TelegramTestBot(StaticLiveServerTestCase):
     
     def setUp(self):
@@ -73,3 +75,12 @@ class TelegramTestBot(StaticLiveServerTestCase):
     def test_getvoting(self):
         votingId = self.create_voting().id
         self.assertIsNotNone(getVoting(votingId))
+    
+    def test_assertbotexists(self):
+        self.driver.get(f'{BASEURL}/bot/')
+        self.driver.find_element(By.LINK_TEXT, "Django-Telegrambot Dashboard").click()
+        self.driver.find_element(By.ID, "id_username").send_keys("administrador")
+        self.driver.find_element(By.ID, "id_password").send_keys("admin1234")
+        self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
+        elements = self.driver.find_elements(By.LINK_TEXT, "@EGCTestBot")
+        assert len(elements) > 0
