@@ -177,6 +177,7 @@ class VisualizerTestCase(BaseTestCase):
         data={'VotID':voting.pk,'Formato':'csv'}
         response=self.client.get('/downloadResults/',data,format='json')
         self.assertEqual(response.status_code,404)
+    
     def test_readCSV_positive(self):
         
         fpath="visualizer/resources/EGCusers.csv"
@@ -195,6 +196,17 @@ class VisualizerTestCase(BaseTestCase):
             ex_catch = True
             
         self.assertTrue(ex_catch)
+
+    def test_readCSV_wrong_delimiter(self):
+        
+        fpath="visualizer/resources/EGCusersbaddelimiter.csv"
+        err_triggered = False
+        try:
+            read_users = readCSV(fpath)            
+        except(IndexError):
+            err_triggered=True
+        
+        self.assertTrue(err_triggered)
             
     def test_get_votes_by_age_positive(self):
         
