@@ -352,27 +352,3 @@ class VisualizerTestCase3(BaseTestCase):
         render_template_response = render_to_pdf(fpath, context)
         print(render_template_response.items())
         self.assertTrue(len(render_template_response.items())>0)
-
-    def test_visualize_voting(self):
-        q = Question(desc='test question')
-        q.save()
-        postprocs=[]
-        for i in range(5):
-            opt = QuestionOption(question=q, option='option {}'.format(i+1))
-            opt.save()
-            postOpt={'votes':0,'number':i,'option':'option {}'.format(i+1),'postproc':0}
-            postprocs.append(postOpt)
-        v = Voting(name='test voting', question=q)
-        v.postproc=postprocs
-        v.start_date=timezone.now()
-        v.end_date=timezone.now()
-        v.tally=5
-        v.save()
-
-        a, _ = Auth.objects.get_or_create(url=settings.BASEURL,
-                                          defaults={'me': True, 'name': 'test auth'})
-        a.save()
-        v.auths.add(a)
-        
-        response = self.client.get('/visualizer/1/')
-        self.assertEquals(response.status_code, 200)
