@@ -6,6 +6,6 @@ from selenium.webdriver.support import expected_conditions as EC
 options = webdriver.FirefoxOptions()
 options.headless = True
 driver = webdriver.Firefox(options=options)
-driver.get("http://localhost:8000/visualizer/77/")
+driver.get("https://www.google.com/")
 print('Title: %s' % driver.title)
 driver.quit()
