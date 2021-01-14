@@ -113,6 +113,18 @@ class VisualizerTestCase(BaseTestCase):
 
         return v
 
+    def test_get_visualizer(self):
+        voting=self.create_voting()
+        start={'action': 'start'}
+        self.client.post('/voting/{}/'.format(voting.pk), start, format='json')
+        stop={'action': 'stop'}
+        self.client.post('/voting/{}/'.format(voting.pk), stop, format='json')
+        tally={'action': 'tally'}
+        self.client.post('/voting/{}/'.format(voting.pk), tally, format='json')
+        data={'voting_id':voting.pk}
+        response=self.client.get('/visualizer/{}/'.format(voting.pk),data,format='json')
+        self.assertEqual(response.status_code,200)
+
     def test_download_results_in_csv_format(self):
         # We must create a voting
         voting=self.create_voting()
