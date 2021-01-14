@@ -125,6 +125,11 @@ class VisualizerTestCase(BaseTestCase):
         response=self.client.get('/visualizer/{}/'.format(voting.pk),data,format='json')
         self.assertEqual(response.status_code,200)
 
+    def test_get_visualizer_with_unexisting_voting(self):
+        data={'voting_id':999}
+        response=self.client.get('/visualizer/{}/'.format(999),data,format='json')
+        self.assertEqual(response.status_code,404)
+
     def test_download_results_in_csv_format(self):
         # We must create a voting
         voting=self.create_voting()
