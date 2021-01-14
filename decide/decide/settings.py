@@ -72,7 +72,7 @@ MODULES = [
     'actions',
 ]
 
-BASEURL = 'http://localhost:8000'
+BASEURL = 'https://d614252b6be5.ngrok.io'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -111,7 +111,7 @@ DJANGO_TELEGRAMBOT = {
                         # NB: if use polling you must provide to run
                         # a management command that starts a worker
 
-    'WEBHOOK_SITE' : BASEURL+'/admin/django-telegrambot',
+    'WEBHOOK_SITE' : BASEURL + '/admin/django-telegrambot',
     'WEBHOOK_PREFIX' : '/prefix', # (Optional[str]) # If this value is specified,
                                   # a prefix is added to webhook url
 

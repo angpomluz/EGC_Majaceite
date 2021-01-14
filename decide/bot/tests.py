@@ -27,7 +27,7 @@ from mixnet.models import Auth
 from django.conf import settings
 
 class TelegramTestBot(StaticLiveServerTestCase):
-    """
+    
     def setUp(self):
         #Load base test functionality for decide
         self.base = BaseTestCase()
@@ -73,7 +73,7 @@ class TelegramTestBot(StaticLiveServerTestCase):
     def test_getvoting(self):
         votingId = self.create_voting().id
         self.assertIsNotNone(getVoting(votingId))
-    
+    """
     def test_existsbot(self):
         self.driver.get("http://localhost:8000/")
         self.driver.find_element(By.LINK_TEXT, "Django-Telegrambot Dashboard").click()
