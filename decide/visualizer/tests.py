@@ -332,7 +332,7 @@ class VisualizerTestCase3(BaseTestCase):
         return v
 
     def test_renderPDF_positive(self):
-        fpath="visualizer/invoice.html"
+        fpath="visualizer/votingpdf.html"
 
         voting=self.create_voting()
 
@@ -347,10 +347,10 @@ class VisualizerTestCase3(BaseTestCase):
         }
         render_template_response = render_to_pdf(fpath, context)
         
-        self.assertTrue(len(render_template_response.items())>0)
+        self.assertEqual(render_template_response.status_code,200)
     
-    def test_renderPDF_positive_2(self):
-        fpath="visualizer/invoice.html"
+    def test_renderPDF_bad_template_unicode(self):
+        fpath="visualizer/votingpdfbad.html"
 
         voting=self.create_voting()
 
@@ -366,6 +366,12 @@ class VisualizerTestCase3(BaseTestCase):
         "voting_question": voting.question,
         "data": listed_values,
         }
-        render_template_response = render_to_pdf(fpath, context)
-        print(render_template_response.items())
-        self.assertTrue(len(render_template_response.items())>0)
+
+        ex_catch = False
+        try:
+            render_to_pdf(fpath, context)
+
+        except(UnicodeError):
+            ex_catch = True
+            
+        self.assertTrue(ex_catch)
