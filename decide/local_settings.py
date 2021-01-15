@@ -14,7 +14,7 @@ MODULES = [
     'bot',
 ]
 
-BASEURL = 'https://3b5cc28c4379.ngrok.io'
+from decide.settings import BASEURL
 
 APIS = {
     'authentication': BASEURL,
