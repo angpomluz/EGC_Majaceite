@@ -145,14 +145,14 @@ class VisualizerView(TemplateView):
         context['votes_by_age']=list(votes_by_age.values())
         context['gender_votes']=gender_votes
         
-        try:
-            r = mods.get('voting', params={'id': vid})
-            voting = json.dumps(r[0])
+        r = mods.get('voting', params={'id': vid})
+        voting = json.dumps(r[0])
 
-            # Aquí hacemos del json un diccionario
-            voting_information = json.loads(voting)
-            postproc = voting_information["postproc"]
+        # Aquí hacemos del json un diccionario
+        voting_information = json.loads(voting)
+        postproc = voting_information["postproc"]
 
+        if postproc:
             # Metemos en data y labels la información necesaria
             a = 0; b = 0
             labels = []; data = []
@@ -168,12 +168,13 @@ class VisualizerView(TemplateView):
                 b += 1
 
             # La añadimos al context
-            context['voting'] = voting
             context['data'] = data
             context['labels'] = labels
-            context['VotId'] = vid
-        except:
-            raise Http404
+        else:
+            context['notally'] = "Lo sentimos, pero los resultados de esta votación aún no han sido contados"
+
+        context['voting'] = voting
+        context['VotId'] = vid
 
         return context
     
