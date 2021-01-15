@@ -1,5 +1,6 @@
 import random
 import itertools
+import datetime
 from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -241,6 +242,13 @@ class VisualizerTestCase(BaseTestCase):
         age = calculate_age(born,True)
         
         self.assertTrue(age == 20)
+    
+    def test_calculate_age_positive_2(self):
+        
+        born = datetime.date(2000, 11, 15)
+        age = calculate_age(born,False)
+        
+        self.assertTrue(age == 20)
         
     def test_calculate_age_bad_format_negative(self):
         
@@ -248,6 +256,18 @@ class VisualizerTestCase(BaseTestCase):
         try:
             born = "2000/15/11"
             calculate_age(born,True)
+            
+        except(ValueError):
+            err_triggered=True
+        
+        self.assertTrue(err_triggered)
+
+    def test_calculate_age_bad_format_negative_2(self):
+        
+        err_triggered = False
+        try:
+            born = datetime.date(20000, 11, 15)
+            calculate_age(born,False)
             
         except(ValueError):
             err_triggered=True
