@@ -19,6 +19,9 @@
         </b-navbar>
 
         <div class="voting container">
+            {% if notally != null %}
+            <h1 style="color:red">{{ notall }}</h1>
+            {% else %}
             <h1>[[ voting.id ]] - [[ voting.name ]]</h1>
 
             <h2 v-if="!voting.start_date">Votación no comenzada</h2>
@@ -62,12 +65,10 @@
                 </select>
             </form>
             <!-- Fin del codigo añadido por Fernando-->
-
                 
             </div>
 
-            
-                
+            {% endif %}
 
         </div>
     </div>
