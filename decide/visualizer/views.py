@@ -105,6 +105,12 @@ class VisualizerView(TemplateView):
         context = super().get_context_data(**kwargs)
         vid = kwargs.get('voting_id', 0)
         
+        r = mods.get('voting', params={'id': vid})
+        if len(r) > 0:
+            voting = json.dumps(r[0])
+        else:
+            raise Http404 
+        
         #num_censed = Census.objects.filter(voting_id=vid).count()
         #num_voted = Vote.objects.filter(voting_id=vid).count()
         
@@ -145,8 +151,7 @@ class VisualizerView(TemplateView):
         context['votes_by_age']=list(votes_by_age.values())
         context['gender_votes']=gender_votes
         
-        r = mods.get('voting', params={'id': vid})
-        voting = json.dumps(r[0])
+        
 
         # Aquí hacemos del json un diccionario
         voting_information = json.loads(voting)
