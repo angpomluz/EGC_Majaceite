@@ -14,6 +14,7 @@ MODULES = [
     'bot',
 ]
 
+BASEURL = 'http://localhost:8000'
 
 APIS = {
     'authentication': BASEURL,
@@ -29,7 +30,6 @@ APIS = {
     'django_telegrambot': BASEURL,
 }
 
-BASEURL = 'http://localhost:8000'
 
 DJANGO_TELEGRAMBOT = {
 
