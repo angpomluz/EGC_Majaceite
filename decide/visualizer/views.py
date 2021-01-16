@@ -61,9 +61,9 @@ class VisualizerView(TemplateView):
             "voting_question": Vote.question,
             "data": listed_values,
             }
-            pdf = render_to_pdf('visualizer/invoice.html', context)
+            pdf = render_to_pdf('visualizer/votingpdf.html', context)
             response = HttpResponse(pdf, content_type='application/pdf')
-            response['Content-Disposition'] = 'attachment; filename="invoice.pdf"'
+            response['Content-Disposition'] = 'attachment; filename="votingpdf.pdf"'
             return response
         elif request.GET["Formato"]=="json":
             response=JsonResponse({'results':Vote.postproc})

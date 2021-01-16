@@ -4,6 +4,12 @@ from django.template.loader import get_template
 
 from xhtml2pdf import pisa
 
+# Render a pdf view from a template and the group of variables that the template needs
+# 
+# Parameters: template_src -> Path to the html template file
+#             context_dict -> Array of variables that the template uses to retrieve data from the voting
+# Returns: returns a http response with the pdf in an application format that can be downloaded as it is requested
+#          if the pdf render has any error, this method will return None
 def render_to_pdf(template_src, context_dict={}):
     template = get_template(template_src)
     html  = template.render(context_dict)
