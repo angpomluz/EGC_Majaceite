@@ -38,6 +38,7 @@ install:
   - sudo ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver
 script:
   - cd decide
+  - ./manage.py collectstatic
   - coverage run --branch --source=. ./manage.py test --keepdb --with-xunit
   - coverage xml
   - python-codacy-coverage -r coverage.xml
