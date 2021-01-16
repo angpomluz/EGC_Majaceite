@@ -79,11 +79,11 @@ class TelegramTestBot(StaticLiveServerTestCase):
         prefix = settings.DJANGO_TELEGRAMBOT['WEBHOOK_PREFIX']
         assert prefix == '/prefix'
         
-    def test_loginisneccessary(self):
-        self.driver.get(f'{settings.BASEURL}/bot/')
-        self.driver.find_element(By.LINK_TEXT, "Django-Telegrambot Dashboard").click()
-        elements = self.driver.find_elements(By.ID, "id_username")
-        assert len(elements) > 0
+    # def test_loginisneccessary(self):
+    #     self.driver.get(f'{settings.BASEURL}/bot/')
+    #     self.driver.find_element(By.LINK_TEXT, "Django-Telegrambot Dashboard").click()
+    #     elements = self.driver.find_elements(By.ID, "id_username")
+    #     assert len(elements) > 0
     
     # ESTOS TEST SOLO SE PUEDEN RUNEAR EL LOCAL DEBIDO A LA DEPENDENCIA DE NGROK
     # Y FALLARIAN AL HACER LA BUILD EN TRAVIS
