@@ -14,7 +14,6 @@ MODULES = [
     'bot',
 ]
 
-from decide.settings import BASEURL
 
 APIS = {
     'authentication': BASEURL,
