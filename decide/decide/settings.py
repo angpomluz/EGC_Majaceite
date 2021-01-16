@@ -72,7 +72,7 @@ MODULES = [
     'actions',
 ]
 
-BASEURL = 'https://af3574b780fc.ngrok.io'
+BASEURL = 'http://localhost:8000'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
