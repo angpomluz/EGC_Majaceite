@@ -154,27 +154,22 @@ class VisualizerView(TemplateView):
 
         if postproc:
             # Metemos en data y labels la información necesaria
-            a = 0; b = 0
+            a = 0
             labels = []; data = []
 
             while a < len(postproc):
                 option = postproc[a]
                 labels.append(option["option"])
-                a += 1
-                
-            while b < len(postproc):
-                option = postproc[b]
                 data.append(option["votes"])
-                b += 1
+                a += 1
 
             # La añadimos al context
             context['data'] = data
             context['labels'] = labels
+            context['voting'] = voting
+            context['VotId'] = vid
         else:
-            context['notally'] = "Lo sentimos, pero los resultados de esta votación aún no han sido contados"
-
-        context['voting'] = voting
-        context['VotId'] = vid
+            context['notally'] = "Lo sentimos, pero lesta votación no ha sido empezada, o no ha sido finalizada, y/o los resultados no han sido contados. Por favor, asegurese que la votación está finalizada y contada antes de acceder a esta página"
 
         return context
     
