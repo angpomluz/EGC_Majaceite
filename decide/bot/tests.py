@@ -24,7 +24,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from voting.models import Voting, Question, QuestionOption
 from django.utils import timezone
 from mixnet.models import Auth
-from django.conf import travis_local_settings
+from decide import travis_local_settings
 
 class TelegramTestBot(StaticLiveServerTestCase):
     
