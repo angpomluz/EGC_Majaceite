@@ -24,9 +24,10 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from voting.models import Voting, Question, QuestionOption
 from django.utils import timezone
 from mixnet.models import Auth
-from django.conf import settings
+from django.conf import local_settings
 
 class TelegramTestBot(StaticLiveServerTestCase):
+    
     
     def setUp(self):
         #Load base test functionality for decide
@@ -74,8 +75,8 @@ class TelegramTestBot(StaticLiveServerTestCase):
     def test_botsettings(self):
         mode = settings.DJANGO_TELEGRAMBOT['MODE']
         assert mode == 'WEBHOOK'
-        site = settings.DJANGO_TELEGRAMBOT['WEBHOOK_SITE']
-        assert site == settings.BASEURL + '/admin/django-telegrambot'
+        site = local_settings.DJANGO_TELEGRAMBOT['WEBHOOK_SITE']
+        assert site == BASEURL + '/admin/django-telegrambot'
         prefix = settings.DJANGO_TELEGRAMBOT['WEBHOOK_PREFIX']
         assert prefix == '/prefix'
         
