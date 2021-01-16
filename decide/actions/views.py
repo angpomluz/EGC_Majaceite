@@ -10,13 +10,18 @@ from base import mods
 import visualizer.views
 from voting.models import *
 from django.conf import settings
+import os
+
+
+OAUTH_ACCESS_TOKEN=os.environ['SLACK_TOKEN']
+VERIFICATION_TOKEN='yi1ydbfn1xMrjJ1YAVH7MVUz'
 
 @csrf_exempt
 def event_hook(request):
-    client = slack.WebClient(settings.OAUTH_ACCESS_TOKEN)
+    client = slack.WebClient(OAUTH_ACCESS_TOKEN)
     json_dict = json.loads(request.body.decode('utf-8'))
     
-    if json_dict['token'] != settings.VERIFICATION_TOKEN:
+    if json_dict['token'] != VERIFICATION_TOKEN:
         return HttpResponse(status=403)
     
     if 'type' in json_dict:
