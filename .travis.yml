@@ -7,7 +7,12 @@ notifications:
     - ferwalrod@alum.us.es
   on_success: always
   on_failure: always
-  
+
+branches:
+  only:
+  - main
+  - develop
+  - deployment  
 addons:
   postgresql: "9.4"
   chrome: stable
