@@ -13,7 +13,7 @@ RUN pip install django-telegrambot
 
 WORKDIR /app
 
-RUN git clone -b develop-integration https://github.com/enderfews/EGC_Majaceite.git .
+RUN git clone -b docker-integration https://github.com/enderfews/EGC_Majaceite.git .
 RUN pip install -r requirements.txt
 
 WORKDIR /app/decide
