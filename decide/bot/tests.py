@@ -60,7 +60,7 @@ class TelegramTestBot(StaticLiveServerTestCase):
         v.tally=5
         v.save()
 
-        a, _ = Auth.objects.get_or_create(url=this.BASEURL,
+        a, _ = Auth.objects.get_or_create(url=self.BASEURL,
                                           defaults={'me': True, 'name': 'test auth'})
         a.save()
         v.auths.add(a)
@@ -77,7 +77,7 @@ class TelegramTestBot(StaticLiveServerTestCase):
         mode = settings.DJANGO_TELEGRAMBOT['MODE']
         assert mode == 'WEBHOOK'
         site = settings.DJANGO_TELEGRAMBOT['WEBHOOK_SITE']
-        assert site == this.BASEURL + '/admin/django-telegrambot'
+        assert site == self.BASEURL + '/admin/django-telegrambot'
         prefix = settings.DJANGO_TELEGRAMBOT['WEBHOOK_PREFIX']
         assert prefix == '/prefix'
         
