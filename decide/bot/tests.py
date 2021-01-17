@@ -68,17 +68,17 @@ class TelegramTestBot(StaticLiveServerTestCase):
 
     # Tests bot
     
-    def test_getvoting(self):
-        votingId = self.create_voting().id
-        self.assertIsNotNone(getVoting(votingId))
+    #def test_getvoting(self):
+    #    votingId = self.create_voting().id
+    #    self.assertIsNotNone(getVoting(votingId))
     
-    def test_botsettings(self):
-        mode = settings.DJANGO_TELEGRAMBOT['MODE']
-        assert mode == 'WEBHOOK'
-        site = settings.DJANGO_TELEGRAMBOT['WEBHOOK_SITE']
-        assert site == f'{self.live_server_url}/admin/django-telegrambot'
-        prefix = settings.DJANGO_TELEGRAMBOT['WEBHOOK_PREFIX']
-        assert prefix == '/prefix'
+    #def test_botsettings(self):
+    #    mode = settings.DJANGO_TELEGRAMBOT['MODE']
+    #    assert mode == 'WEBHOOK'
+    #    site = settings.DJANGO_TELEGRAMBOT['WEBHOOK_SITE']
+    #    assert site == f'{self.live_server_url}/admin/django-telegrambot'
+    #    prefix = settings.DJANGO_TELEGRAMBOT['WEBHOOK_PREFIX']
+    #    assert prefix == '/prefix'
         
     # def test_loginisneccessary(self):
     #     self.driver.get(f'{settings.BASEURL}/bot/')
