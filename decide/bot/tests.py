@@ -65,7 +65,10 @@ class TelegramTestBot(StaticLiveServerTestCase):
 
         return v
 
-    # Tests bot
+# Tests bot
+    
+    # ESTOS TEST SOLO SE PUEDEN RUNEAR EL LOCAL DEBIDO A LA DEPENDENCIA DE NGROK
+    # Y FALLARIAN AL HACER LA BUILD EN TRAVIS
     
     # def test_getvoting(self):
     #     votingId = self.create_voting().id
@@ -78,21 +81,18 @@ class TelegramTestBot(StaticLiveServerTestCase):
     #     assert site == settings.BASEURL + '/admin/django-telegrambot'
     #     prefix = settings.DJANGO_TELEGRAMBOT['WEBHOOK_PREFIX']
     #     assert prefix == '/prefix'
-        
-    # def test_loginisneccessary(self):
-    #     self.driver.get(f'{settings.BASEURL}/bot/')
-    #     self.driver.find_element(By.LINK_TEXT, "Django-Telegrambot Dashboard").click()
-    #     elements = self.driver.find_elements(By.ID, "id_username")
-    #     assert len(elements) > 0
-    
-    # ESTOS TEST SOLO SE PUEDEN RUNEAR EL LOCAL DEBIDO A LA DEPENDENCIA DE NGROK
-    # Y FALLARIAN AL HACER LA BUILD EN TRAVIS
     
     # def test_tokenbot(self):
     #     bot = DjangoTelegramBot
     #     bot_tokens = bot.bot_tokens
     #     bot_token = bot_tokens[0]
     #     self.assertEquals(bot_token, '1478165863:AAGTc2kVAoGTI1-pZck4ZvkNYho2ldB_NX8')
+        
+    # def test_loginisneccessary(self):
+    #     self.driver.get(f'{settings.BASEURL}/bot/')
+    #     self.driver.find_element(By.LINK_TEXT, "Django-Telegrambot Dashboard").click()
+    #     elements = self.driver.find_elements(By.ID, "id_username")
+    #     assert len(elements) > 0
     
     # def test_assertview(self):
     #     self.driver.get(f'{settings.BASEURL}/bot/')
