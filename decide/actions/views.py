@@ -34,7 +34,7 @@ def event_hook(request):
     if event_msg['text'] == '-saludame':
         user = event_msg['user']
         channel = event_msg['channel']
-        response_msg = ":wave:, Hello <@%s>" % user
+        response_msg = ":wave:, Hello <@%s>" % event_msg['text']
         client.chat_postMessage(channel=channel, text=response_msg)
         return HttpResponse(status=200)
 

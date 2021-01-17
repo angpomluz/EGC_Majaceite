@@ -19,7 +19,7 @@ from django.template.loader import get_template
 import csv
 import xml.etree.ElementTree as XT
 
-# from visualizer.utils import render_to_pdf
+from visualizer.utils import render_to_pdf
 
 
 class VisualizerView(TemplateView):
@@ -48,23 +48,23 @@ class VisualizerView(TemplateView):
                 writer.writerow(value)
             response['Content-Disposition']= 'attachment; filename="votingResults.csv"'
             return response
-        # elif request.GET["Formato"]=="pdf":
-        #     listed_values=[]
-        #     for d in Vote.postproc:
-        #         Values=[]
-        #         for v in d.values():
-        #             Values.append(v)
-        #         listed_values.append(Values)
-        #     context = {
-        #     "voting_id": request.GET["VotID"],
-        #     "voting_name": Vote.name,
-        #     "voting_question": Vote.question,
-        #     "data": listed_values,
-        #     }
-        #     pdf = render_to_pdf('visualizer/votingpdf.html', context)
-        #     response = HttpResponse(pdf, content_type='application/pdf')
-        #     response['Content-Disposition'] = 'attachment; filename="votingpdf.pdf"'
-        #     return response
+        elif request.GET["Formato"]=="pdf":
+            listed_values=[]
+            for d in Vote.postproc:
+                Values=[]
+                for v in d.values():
+                    Values.append(v)
+                listed_values.append(Values)
+            context = {
+            "voting_id": request.GET["VotID"],
+            "voting_name": Vote.name,
+            "voting_question": Vote.question,
+            "data": listed_values,
+            }
+            pdf = render_to_pdf('visualizer/votingpdf.html', context)
+            response = HttpResponse(pdf, content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="votingpdf.pdf"'
+            return response
         elif request.GET["Formato"]=="json":
             response=JsonResponse({'results':Vote.postproc})
             response['Content-Disposition']= 'attachment; filename="votingResults.json"'
