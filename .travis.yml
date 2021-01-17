@@ -12,6 +12,11 @@ addons:
   firefox: latest
   snaps:
   - ngrok
+branches:
+  only:
+  - main
+  - develop
+  - deployment
 before_script:
 - psql -U postgres -c "create user decide password 'decide'"
 - psql -U postgres -c "create database test_decide owner decide"
