@@ -24,10 +24,11 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from voting.models import Voting, Question, QuestionOption
 from django.utils import timezone
 from mixnet.models import Auth
-from decide import travis_local_settings
+from django.conf import settings
 
 class TelegramTestBot(StaticLiveServerTestCase):
     
+    BASEURL = 'http://localhost:8000'
     
     def setUp(self):
         #Load base test functionality for decide
@@ -59,7 +60,7 @@ class TelegramTestBot(StaticLiveServerTestCase):
         v.tally=5
         v.save()
 
-        a, _ = Auth.objects.get_or_create(url=travis_local_settings.BASEURL,
+        a, _ = Auth.objects.get_or_create(url=BASEURL,
                                           defaults={'me': True, 'name': 'test auth'})
         a.save()
         v.auths.add(a)
@@ -73,11 +74,11 @@ class TelegramTestBot(StaticLiveServerTestCase):
         self.assertIsNotNone(getVoting(votingId))
     
     def test_botsettings(self):
-        mode = travis_local_settings.DJANGO_TELEGRAMBOT['MODE']
+        mode = settings.DJANGO_TELEGRAMBOT['MODE']
         assert mode == 'WEBHOOK'
-        site = travis_local_settings.DJANGO_TELEGRAMBOT['WEBHOOK_SITE']
+        site = settings.DJANGO_TELEGRAMBOT['WEBHOOK_SITE']
         assert site == BASEURL + '/admin/django-telegrambot'
-        prefix = travis_local_settings.DJANGO_TELEGRAMBOT['WEBHOOK_PREFIX']
+        prefix = settings.DJANGO_TELEGRAMBOT['WEBHOOK_PREFIX']
         assert prefix == '/prefix'
         
     # def test_loginisneccessary(self):
