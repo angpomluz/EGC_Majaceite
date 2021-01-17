@@ -13,7 +13,7 @@ from base.tests import BaseTestCase
 
 class AdminTestCase(StaticLiveServerTestCase):
 
-
+  """
   def setUp(self):
         
         #Load base test functionality for decide
@@ -71,3 +71,4 @@ class AdminTestCase(StaticLiveServerTestCase):
     self.driver.find_element(By.CSS_SELECTOR, ".ql-editor > p").send_keys("-estonosesuncomando")
     text = self.driver.find_element(By.CSS_SELECTOR, ".c-message_list > .c-scrollbar__hider").text
     assert text != "Nuevo"
+  """

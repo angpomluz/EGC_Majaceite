@@ -27,12 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-VERIFICATION_TOKEN = 'yi1ydbfn1xMrjJ1YAVH7MVUz'
-OAUTH_ACCESS_TOKEN = 'xoxp-1541218143492-1547685420673-1547689884337-3329a93dd5b3b267772f41e9ab4bcd3e'
-BOT_USER_ACCESS_TOKEN = 'xoxb-1541218143492-1535266194915-80nUQNYS1YtQC9uNlIBK05Vl'
-CLIENT_ID = '1541218143492.1531969344741'
-CLIENT_SECRET = 'c4895f058d38df0728d9fc78c7e429b6'
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -117,7 +111,7 @@ DJANGO_TELEGRAMBOT = {
                         # NB: if use polling you must provide to run
                         # a management command that starts a worker
 
-    'WEBHOOK_SITE' : BASEURL+'/admin/django-telegrambot',
+    'WEBHOOK_SITE' : BASEURL + '/admin/django-telegrambot',
     'WEBHOOK_PREFIX' : '/prefix', # (Optional[str]) # If this value is specified,
                                   # a prefix is added to webhook url
 

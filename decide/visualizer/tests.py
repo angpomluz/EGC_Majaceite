@@ -1,5 +1,6 @@
 import random
 import itertools
+import datetime
 from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -13,6 +14,7 @@ from rest_framework.test import APITestCase
 from base.tests import BaseTestCase
 from voting.models import Voting, Question, QuestionOption
 from visualizer.utils import readCSV
+from visualizer.utils import render_to_pdf
 from visualizer.views import calculate_age, get_votes_by_age
 
 # Create your tests here.
@@ -112,6 +114,23 @@ class VisualizerTestCase(BaseTestCase):
 
         return v
 
+    def test_get_visualizer(self):
+        voting=self.create_voting()
+        start={'action': 'start'}
+        self.client.post('/voting/{}/'.format(voting.pk), start, format='json')
+        stop={'action': 'stop'}
+        self.client.post('/voting/{}/'.format(voting.pk), stop, format='json')
+        tally={'action': 'tally'}
+        self.client.post('/voting/{}/'.format(voting.pk), tally, format='json')
+        data={'voting_id':voting.pk}
+        response=self.client.get('/visualizer/{}/'.format(voting.pk),data,format='json')
+        self.assertEqual(response.status_code,200)
+
+    def test_get_visualizer_with_unexisting_voting(self):
+        data={'voting_id':999}
+        response=self.client.get('/visualizer/{}/'.format(999),data,format='json')
+        self.assertEqual(response.status_code,404)
+
     def test_download_results_in_csv_format(self):
         # We must create a voting
         voting=self.create_voting()
@@ -176,6 +195,7 @@ class VisualizerTestCase(BaseTestCase):
         data={'VotID':voting.pk,'Formato':'csv'}
         response=self.client.get('/downloadResults/',data,format='json')
         self.assertEqual(response.status_code,404)
+    
     def test_readCSV_positive(self):
         
         fpath="visualizer/resources/EGCusers.csv"
@@ -194,6 +214,17 @@ class VisualizerTestCase(BaseTestCase):
             ex_catch = True
             
         self.assertTrue(ex_catch)
+
+    def test_readCSV_wrong_delimiter(self):
+        
+        fpath="visualizer/resources/EGCusersbaddelimiter.csv"
+        err_triggered = False
+        try:
+            read_users = readCSV(fpath)            
+        except(IndexError):
+            err_triggered=True
+        
+        self.assertTrue(err_triggered)
             
     def test_get_votes_by_age_positive(self):
         
@@ -211,6 +242,13 @@ class VisualizerTestCase(BaseTestCase):
         age = calculate_age(born,True)
         
         self.assertTrue(age == 20)
+    
+    def test_calculate_age_positive_2(self):
+        
+        born = datetime.date(2000, 11, 15)
+        age = calculate_age(born,False)
+        
+        self.assertTrue(age == 20)
         
     def test_calculate_age_bad_format_negative(self):
         
@@ -218,6 +256,18 @@ class VisualizerTestCase(BaseTestCase):
         try:
             born = "2000/15/11"
             calculate_age(born,True)
+            
+        except(ValueError):
+            err_triggered=True
+        
+        self.assertTrue(err_triggered)
+
+    def test_calculate_age_bad_format_negative_2(self):
+        
+        err_triggered = False
+        try:
+            born = datetime.date(20000, 11, 15)
+            calculate_age(born,False)
             
         except(ValueError):
             err_triggered=True
@@ -268,4 +318,80 @@ class VisualizerTestCase2(BaseTestCase):
         data={'VotID':voting.pk,'Formato':'pdf'}
         response=self.client.get('/downloadResults/',data,format='json')
         self.assertEqual(response.status_code,200)
+
     
+    
+class VisualizerTestCase3(BaseTestCase):
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
+
+    def create_voting(self):
+        q = Question(desc='test question')
+        q.save()
+        postprocs=[]
+        for i in range(5):
+            opt = QuestionOption(question=q, option='option {}'.format(i+1))
+            opt.save()
+            postOpt={'votes':0,'number':i,'option':'option {}'.format(i+1),'postproc':0}
+            postprocs.append(postOpt)
+        v = Voting(name='test voting', question=q)
+        v.postproc=postprocs
+        v.start_date=timezone.now()
+        v.end_date=timezone.now()
+        v.tally=5
+        v.save()
+
+        a, _ = Auth.objects.get_or_create(url=settings.BASEURL,
+                                          defaults={'me': True, 'name': 'test auth'})
+        a.save()
+        v.auths.add(a)
+
+        return v
+
+    def test_renderPDF_positive(self):
+        fpath="visualizer/votingpdf.html"
+
+        voting=self.create_voting()
+
+        listed_values=[]
+        Values=[0, 1, 'Unreal']
+        listed_values.append(Values)
+        context = {
+        "voting_id": voting.pk,
+        "voting_name": voting.name,
+        "voting_question": voting.question,
+        "data": listed_values,
+        }
+        render_template_response = render_to_pdf(fpath, context)
+        
+        self.assertEqual(render_template_response.status_code,200)
+    
+    def test_renderPDF_bad_template_unicode(self):
+        fpath="visualizer/votingpdfbad.html"
+
+        voting=self.create_voting()
+
+        listed_values=[]
+        for d in voting.postproc:
+            Values=[]
+            for v in d.values():
+                Values.append(v)
+            listed_values.append(Values)
+        context = {
+        "voting_id": voting.pk,
+        "voting_name": voting.name,
+        "voting_question": voting.question,
+        "data": listed_values,
+        }
+
+        ex_catch = False
+        try:
+            render_to_pdf(fpath, context)
+
+        except(UnicodeError):
+            ex_catch = True
+            
+        self.assertTrue(ex_catch)

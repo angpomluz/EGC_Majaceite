@@ -14,21 +14,21 @@ MODULES = [
     'bot',
 ]
 
-APIS = {
-    'authentication': 'http://localhost:8000',
-    'base': 'http://localhost:8000',
-    'booth': 'http://localhost:8000',
-    'census': 'http://localhost:8000',
-    'mixnet': 'http://localhost:8000',
-    'postproc': 'http://localhost:8000',
-    'store': 'http://localhost:8000',
-    'visualizer': 'http://localhost:8000',
-    'voting': 'http://localhost:8000',
-    'bot': 'http://localhost:8000',
-    'django_telegrambot': 'http://localhost:8000',
-}
+from decide.settings import BASEURL
 
-BASEURL = 'http://localhost:8000'
+APIS = {
+    'authentication': BASEURL,
+    'base': BASEURL,
+    'booth': BASEURL,
+    'census': BASEURL,
+    'mixnet': BASEURL,
+    'postproc': BASEURL,
+    'store': BASEURL,
+    'visualizer': BASEURL,
+    'voting': BASEURL,
+    'bot': BASEURL,
+    'django_telegrambot': BASEURL,
+}
 
 DJANGO_TELEGRAMBOT = {
 
@@ -37,7 +37,7 @@ DJANGO_TELEGRAMBOT = {
                         # NB: if use polling you must provide to run
                         # a management command that starts a worker
 
-    'WEBHOOK_SITE' : 'https://bcbec9e902b8.ngrok.io/admin/django-telegrambot',
+    'WEBHOOK_SITE' : BASEURL + '/admin/django-telegrambot',
     'WEBHOOK_PREFIX' : '/prefix', # (Optional[str]) # If this value is specified,
                                   # a prefix is added to webhook url
 
