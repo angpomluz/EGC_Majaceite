@@ -4,7 +4,9 @@
 
 # EGC_Majaceite
 
-[Documento del proyecto EGC Majaceite en HTML](doc/DocumentodelproyectoEGCMajaceite.html)
+[Documento del proyecto EGC Majaceite en Drive](https://docs.google.com/document/d/1Iw8HffGaBIPfsqdqPn0pMJQAnvD3VKvcU_swxRYXBeg/edit?usp=sharing)
 
 [Documento del proyecto EGC Majaceite en PDF](doc/DocumentodelproyectoEGCMajaceite.pdf)
+
+[Documento del proyecto EGC Majaceite en HTML](doc/DocumentodelproyectoEGCMajaceite.html)
 
