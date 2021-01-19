@@ -15,6 +15,11 @@
     <canvas id="barchart-poredad" class="w-100 h-100"></canvas>
 </div>
 
+<h3>Número de votos por estado de empleo</h3>
+<div id="container-pierchart-workstatus" class="d-inline-flex">
+    <canvas id="piechart-workstatus" class="w-100 h-100"></canvas>
+</div>
+
 
 <script>
 
@@ -83,16 +88,35 @@
          responsive: true
      }
     };
+     
+    var configEmpleo = {
+    type: 'pie',
+    data: {
+        datasets: [{
+        data: {{work_status}},
+        backgroundColor: [
+            'blue', 'red'
+        ],
+        label: 'Employment'
+        }],
+        labels: ["Empleado","Desempleado"]
+    },
+    options: {
+        responsive: true
+    }
+    };
 
     window.onload = function() {
     var ctx_total = document.getElementById('piechart-total').getContext('2d');
     var ctx_censados = document.getElementById('piechart-censados').getContext('2d');
     var ctx_genero = document.getElementById('piechart-genero').getContext('2d');
     var ctx_poredad = document.getElementById('barchart-poredad').getContext('2d');
+    var ctx_empleo = document.getElementById('piechart-workstatus').getContext('2d');
     window.myPie = new Chart(ctx_total, configTotal);
     window.myPie = new Chart(ctx_censados, configCensados);
     window.myPie = new Chart(ctx_genero, configGenero);
     window.myPie = new Chart(ctx_poredad, configPorEdad);
+    window.myPie = new Chart(ctx_empleo, configEmpleo);
     };
 
  </script>

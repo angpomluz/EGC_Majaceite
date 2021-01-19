@@ -115,7 +115,7 @@ class VisualizerView(TemplateView):
         #num_voted = Vote.objects.filter(voting_id=vid).count()
         
         #Load mock users from csv
-        read_users = readCSV('visualizer/resources/EGCusers.csv')
+        read_users = readCSV('visualizer/resources/EGCusers500Emp.csv')
         
         #Calculating num of censed users and num of censed who voted
         censed_users = [u['voted'] for u in read_users]
@@ -138,6 +138,15 @@ class VisualizerView(TemplateView):
         
         gender_votes = list(dict_genvotes_raw.values())
         
+        #Calculate votes by work_status
+        work_status_raw = [voter['work_status'] for voter in read_users]
+        dict_work_status_raw={'Emp':0,'Unemp':0}
+        for vote in work_status_raw:
+            dict_work_status_raw[vote] +=1
+        
+        work_status_votes = list(dict_work_status_raw.values())
+        
+        context['work_status'] = work_status_votes
         
         #Calculating votes by age
         age_range = [18,25,35,55,65]
