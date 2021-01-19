@@ -72,7 +72,19 @@ MODULES = [
     'actions',
 ]
 
-BASEURL = 'http://localhost:8000'
+BASEURL = 'https://egc-majaceite.herokuapp.com'
+
+APIS = {
+    'authentication': BASEURL,
+    'base': BASEURL,
+    'booth': BASEURL,
+    'census': BASEURL,
+    'mixnet': BASEURL,
+    'postproc': BASEURL,
+    'store': BASEURL,
+    'visualizer': BASEURL,
+    'voting': BASEURL,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -175,6 +187,11 @@ DJANGO_TELEGRAMBOT = {
     ],
 
 }
+VERIFICATION_TOKEN = 'yi1ydbfn1xMrjJ1YAVH7MVUz'
+OAUTH_ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN')
+BOT_USER_ACCESS_TOKEN = 'xoxb-1541218143492-1535266194915-k8RkhdPIDm8Zc0sfYsGSRncB'
+CLIENT_ID = '1541218143492.1531969344741'
+CLIENT_SECRET = 'c4895f058d38df0728d9fc78c7e429b6'
 
 
 # Database
@@ -254,3 +271,7 @@ if os.path.exists("config.jsonnet"):
 
 
 INSTALLED_APPS = INSTALLED_APPS + MODULES
+
+import django_heroku
+
+django_heroku.settings(locals())
