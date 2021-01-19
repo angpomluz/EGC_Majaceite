@@ -10,7 +10,7 @@ from voting.models import Voting, Question, QuestionOption
 from base.tests import BaseTestCase
 
 
-class AdminTestCase(StaticLiveServerTestCase):
+class M2F04TestCasesSelenium(StaticLiveServerTestCase):
 
     def setUp(self):
         
@@ -31,20 +31,11 @@ class AdminTestCase(StaticLiveServerTestCase):
 
         self.base.tearDown()
     
-    #Tests de la tarea M2F03   
-    def test_ChartLoadPositive(self):
-        
-        votings = Voting.objects.all()
-        
-        if len(votings) > 0:
-        
-            self.driver.get('http://localhost:8000/visualizer/{}/'.format(votings[0].id))
-            elements = self.driver.find_elements(By.ID, "piechart-censados")
-            assert len(elements) > 0
-            elements = self.driver.find_elements(By.ID, "piechart-genero")
-            assert len(elements) > 0
-            elements = self.driver.find_elements(By.ID, "barchart-poredad")
-            assert len(elements) > 0
-            assert self.driver.find_element(By.XPATH, "//span[contains(.,\'200\')]").text == "200"
-        
-    #Fin test de la tarea M2F03
+    def test_seleniumslack(self):
+        self.driver.get("https://resultadosegc.slack.com/")
+        self.driver.set_window_size(1920, 1040)
+        self.driver.find_element(By.ID, "email").send_keys("PruebasEGC99@gmail.com")
+        self.driver.find_element(By.ID, "password").send_keys("paraprobar99")
+        self.driver.find_element(By.ID, "password").send_keys(Keys.ENTER)
+        self.driver.get("https://app.slack.com/client/T01FX6E47EG/D01JHGDARFG")
+        assert self.driver.find_element(By.CSS_SELECTOR, ".p-classic_nav_member_name").text == "EGC"

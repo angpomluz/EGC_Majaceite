@@ -6,6 +6,12 @@ notifications:
   - ferwalrod@alum.us.es
   on_success: always
   on_failure: always
+
+branches:
+  only:
+  - main
+  - develop
+  - deployment  
 addons:
   postgresql: '9.4'
   chrome: stable
@@ -42,16 +48,13 @@ install:
 - sudo chmod +x /usr/local/share/geckodriver
 - sudo ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver
 script:
-- cd decide
-- cp travis_local_settings.py local_settings.py
-- coverage run --branch --source=. ./manage.py test --keepdb
-- coverage xml
-- python-codacy-coverage -r coverage.xml
-deploy:
-  provider: heroku
-  app: egc-majaceite
-  strategy: git
-  api_key:
-    secure: Kv02p5SKpjIZB3FujNVgO3OfkRNmiGZZ6/SD1C4zVJrpsQt+OJBm5fgLtxCcrVxyOP/MVBhJ8aw1OPdwI/6F0sC5TSVbOy38K/p9qyWBXqyhJQhQPQPYnt1Nwgxdqv1HSboDZkxbXEqA+oLrSOumiqC9Nb7gqJvsdlNh8Hon0yMQeE9Lu5P5G17nbOFsSPQIVZbSYckes3xjVkIbDb10NhDUWmKTnx4gXGR77Llq+Re8PFn+aCgkWNZKRqpCA4N6jlHwEBvW6D7LX6TWruGru2xPEjPPQtseGVncj6rsrsdqzTZWRrPAqIgqQNwNcZ5A432ARjQwd5RMTk8aFyF8l5HWG3XA8Cr3CV0MKAi2zwJb0ihEGzvsnBdPHewxFoaL7vKCqbK9GZ4vnnX2mWQtE7IrNWClu/Na4AuDRe62wsy32tup+3mdCGPAZUnfNV5Zbu78Qr5Iy6V3mINo1F0WBsvZEZxYx7QeFvKs+JwLruStp3VGPxIYRsCUvWKvzN404TLpQZLEe104QkHIkw5E5ohOmvixfsWa6qIm0orwUKFJKoXXBWvAhoyVLmwPsVDbgsFBla1hwYPsjFJGINL8Syt8ZMBtzVGCVrTXiyv6R9scKhRhyXYf/y67InU41Lu97uC7gAtuHUpvNbKAhU67i6r8RcPolV7BIxpt3NfmDtc=
-  on:
-    branch: deployment
+  - cd decide
+  - coverage run --branch --source=. ./manage.py test --keepdb --with-xunit
+  - coverage xml
+  - python-codacy-coverage -r coverage.xml
+  
+branches:
+  only:
+  - main
+  - develop
+  - deployment

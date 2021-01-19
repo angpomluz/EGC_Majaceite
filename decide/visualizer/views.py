@@ -61,9 +61,9 @@ class VisualizerView(TemplateView):
             "voting_question": Vote.question,
             "data": listed_values,
             }
-            pdf = render_to_pdf('visualizer/invoice.html', context)
+            pdf = render_to_pdf('visualizer/votingpdf.html', context)
             response = HttpResponse(pdf, content_type='application/pdf')
-            response['Content-Disposition'] = 'attachment; filename="invoice.pdf"'
+            response['Content-Disposition'] = 'attachment; filename="votingpdf.pdf"'
             return response
         elif request.GET["Formato"]=="json":
             response=JsonResponse({'results':Vote.postproc})
@@ -105,11 +105,17 @@ class VisualizerView(TemplateView):
         context = super().get_context_data(**kwargs)
         vid = kwargs.get('voting_id', 0)
         
+        r = mods.get('voting', params={'id': vid})
+        if len(r) > 0:
+            voting = json.dumps(r[0])
+        else:
+            raise Http404 
+        
         #num_censed = Census.objects.filter(voting_id=vid).count()
         #num_voted = Vote.objects.filter(voting_id=vid).count()
         
         #Load mock users from csv
-        read_users = readCSV('visualizer/resources/EGCusers.csv')
+        read_users = readCSV('visualizer/resources/EGCusers500Emp.csv')
         
         #Calculating num of censed users and num of censed who voted
         censed_users = [u['voted'] for u in read_users]
@@ -132,6 +138,15 @@ class VisualizerView(TemplateView):
         
         gender_votes = list(dict_genvotes_raw.values())
         
+        #Calculate votes by work_status
+        work_status_raw = [voter['work_status'] for voter in read_users]
+        dict_work_status_raw={'Emp':0,'Unemp':0}
+        for vote in work_status_raw:
+            dict_work_status_raw[vote] +=1
+        
+        work_status_votes = list(dict_work_status_raw.values())
+        
+        context['work_status'] = work_status_votes
         
         #Calculating votes by age
         age_range = [18,25,35,55,65]
@@ -145,41 +160,39 @@ class VisualizerView(TemplateView):
         context['votes_by_age']=list(votes_by_age.values())
         context['gender_votes']=gender_votes
         
-        try:
-            r = mods.get('voting', params={'id': vid})
-            voting = json.dumps(r[0])
+        
 
-            # Aquí hacemos del json un diccionario
-            voting_information = json.loads(voting)
-            #Falla por la variable postproc, está None----------------------------------------
-            postproc = voting_information["postproc"]
+        # Aquí hacemos del json un diccionario
+        voting_information = json.loads(voting)
+        postproc = voting_information["postproc"]
 
+        if postproc:
             # Metemos en data y labels la información necesaria
-            a = 0; b = 0
+            a = 0
             labels = []; data = []
 
             while a < len(postproc):
                 option = postproc[a]
                 labels.append(option["option"])
-                a += 1
-                
-            while b < len(postproc):
-                option = postproc[b]
                 data.append(option["votes"])
-                b += 1
+                a += 1
 
             # La añadimos al context
-            context['voting'] = voting
             context['data'] = data
             context['labels'] = labels
+            context['voting'] = voting
             context['VotId'] = vid
-        except:
-            raise Http404
+        else:
+            context['notally'] = "Lo sentimos, pero lesta votación no ha sido empezada, o no ha sido finalizada, y/o los resultados no han sido contados. Por favor, asegurese que la votación está finalizada y contada antes de acceder a esta página"
 
         return context
     
-# Receives a range of ages and a list of birthdates and returns a list containing
-# the number of people in each age range
+# Receives a range of ages and a list of birthdates and
+# 
+# Parameters:   age_range   -> The range of ages for clasify the birthdates
+#               birthdates  -> List of strings in format mm/dd/yyyy
+#
+# Returns: a dictionary containing the number of people in each age range
 def get_votes_by_age(age_range,birthdates):
     
     ages=[]
@@ -198,6 +211,12 @@ def get_votes_by_age(age_range,birthdates):
             
     return res
 
+# Calculate de age from a birthdate
+# 
+# Parameters:   born        -> var containing the birhthdate
+#               is_string   -> determine if the born var is string or date type
+#
+# Returns: The age calculated from the born parameter
 def calculate_age(born, is_string=False):
     
     if is_string:

@@ -27,7 +27,7 @@ from mixnet.models import Auth
 from django.conf import settings
 
 class TelegramTestBot(StaticLiveServerTestCase):
-    """
+    
     def setUp(self):
         #Load base test functionality for decide
         self.base = BaseTestCase()
@@ -65,22 +65,53 @@ class TelegramTestBot(StaticLiveServerTestCase):
 
         return v
 
-    # Tests bot
-    def test_tokenbot(self):
-        bot_token = DjangoTelegramBot.bot_tokens[0]
-        self.assertEquals(bot_token, '1478165863:AAGTc2kVAoGTI1-pZck4ZvkNYho2ldB_NX8')
+# Tests bot
     
-    def test_getvoting(self):
-        votingId = self.create_voting().id
-        self.assertIsNotNone(getVoting(votingId))
+    # ESTOS TEST SOLO SE PUEDEN RUNEAR EL LOCAL DEBIDO A LA DEPENDENCIA DE NGROK
+    # Y FALLARIAN AL HACER LA BUILD EN TRAVIS
     
-    def test_existsbot(self):
-        self.driver.get("http://localhost:8000/")
-        self.driver.find_element(By.LINK_TEXT, "Django-Telegrambot Dashboard").click()
-        self.driver.find_element(By.ID, "id_username").send_keys("administrador")
-        self.driver.find_element(By.ID, "id_password").click()
-        self.driver.find_element(By.ID, "id_password").send_keys("administrador")
-        self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
-        elements = self.driver.find_elements(By.LINK_TEXT, "@EGCTestBot")
-        assert len(elements) > 0
-    """
+    # def test_getvoting(self):
+    #     votingId = self.create_voting().id
+    #     self.assertIsNotNone(getVoting(votingId))
+    
+    # def test_botsettings(self):
+    #     mode = settings.DJANGO_TELEGRAMBOT['MODE']
+    #     assert mode == 'WEBHOOK'
+    #     site = settings.DJANGO_TELEGRAMBOT['WEBHOOK_SITE']
+    #     assert site == settings.BASEURL + '/admin/django-telegrambot'
+    #     prefix = settings.DJANGO_TELEGRAMBOT['WEBHOOK_PREFIX']
+    #     assert prefix == '/prefix'
+    
+    # def test_tokenbot(self):
+    #     bot = DjangoTelegramBot
+    #     bot_tokens = bot.bot_tokens
+    #     bot_token = bot_tokens[0]
+    #     self.assertEquals(bot_token, '1478165863:AAGTc2kVAoGTI1-pZck4ZvkNYho2ldB_NX8')
+        
+    # def test_loginisneccessary(self):
+    #     self.driver.get(f'{settings.BASEURL}/bot/')
+    #     self.driver.find_element(By.LINK_TEXT, "Django-Telegrambot Dashboard").click()
+    #     elements = self.driver.find_elements(By.ID, "id_username")
+    #     assert len(elements) > 0
+    
+    # def test_assertview(self):
+    #     self.driver.get(f'{settings.BASEURL}/bot/')
+    #     self.driver.find_element(By.LINK_TEXT, "Django-Telegrambot Dashboard").click()
+    #     self.driver.find_element(By.ID, "id_username").send_keys("administrador")
+    #     self.driver.find_element(By.ID, "id_password").send_keys("admin1234")
+    #     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
+    #     title = self.driver.find_elements(By.LINK_TEXT, "Django-TelegramBot")
+    #     assert len(title) > 0
+    #     bot_mode = self.driver.find_element(By.XPATH, "//h3[contains(.,\'Bot update mode: WEBHOOK\')]").text
+    #     assert bot_mode == "Bot update mode: WEBHOOK"
+    #     bot_list = self.driver.find_element(By.XPATH, "//h3[contains(.,\'Bot List:\')]").text
+    #     assert bot_list == "Bot List:"
+    
+    # def test_assertbotexists(self):
+    #     self.driver.get(f'{settings.BASEURL}/bot/')
+    #     self.driver.find_element(By.LINK_TEXT, "Django-Telegrambot Dashboard").click()
+    #     self.driver.find_element(By.ID, "id_username").send_keys("administrador")
+    #     self.driver.find_element(By.ID, "id_password").send_keys("admin1234")
+    #     self.driver.find_element(By.ID, "id_password").send_keys(Keys.ENTER)
+    #     elements = self.driver.find_elements(By.LINK_TEXT, "@EGCTestBot")
+    #     assert len(elements) > 0
