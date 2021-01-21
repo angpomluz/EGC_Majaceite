@@ -53,4 +53,8 @@ script:
   - coverage xml
   - python-codacy-coverage -r coverage.xml
   
-
+branches:
+  only:
+  - main
+  - develop
+  - deployment

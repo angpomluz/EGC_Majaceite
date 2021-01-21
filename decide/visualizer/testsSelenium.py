@@ -171,3 +171,32 @@ class AdminTestCase(StaticLiveServerTestCase):
         print(self.driver.current_url)
         #In case of a incorrect loging, a element errornote will be shown
         self.assertTrue(len(self.driver.find_elements_by_class_name('app-voting model-voting change-form vsc-initialized'))==0)
+
+#Tests de la tarea M3F0D
+class M3F0DTestCasesSelenium(StaticLiveServerTestCase):
+
+    def setUp(self):
+        
+        #Load base test functionality for decide
+        self.base = BaseTestCase()
+        self.base.setUp()
+
+        options = webdriver.ChromeOptions()
+        options.headless = True
+        self.driver = webdriver.Chrome(options=options)
+
+        super().setUp()            
+            
+    def tearDown(self):    
+               
+        super().tearDown()
+        self.driver.quit()
+
+        self.base.tearDown()
+    
+    def test_chartDefensaLoadPositive(self):
+        votings = Voting.objects.all()
+        if len(votings) > 0:
+            self.driver.get('http://localhost:8000/visualizer/{}/'.format(votings[0].id))
+            elements = self.driver.find_elements(By.ID, "piechart-workstatus")
+            assert len(elements) > 0
