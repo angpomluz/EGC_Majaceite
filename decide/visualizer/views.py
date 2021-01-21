@@ -115,7 +115,7 @@ class VisualizerView(TemplateView):
         #num_voted = Vote.objects.filter(voting_id=vid).count()
         
         #Load mock users from csv
-        read_users = readCSV('visualizer/resources/EGCusers800.csv')
+        read_users = readCSV('visualizer/resources/EGCusers.csv')
         
         #Calculating num of censed users and num of censed who voted
         censed_users = [u['voted'] for u in read_users]
