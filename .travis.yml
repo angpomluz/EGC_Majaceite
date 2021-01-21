@@ -51,6 +51,11 @@ script:
 - cp travis_local_settings.py local_settings.py
 - ./manage.py collectstatic
 - coverage run --branch --source=. ./manage.py test --keepdb
+branches:
+  only:
+  - main
+  - develop
+  - deployment
 
 deploy:
   provider: heroku
